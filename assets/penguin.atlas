@@ -1,0 +1,55 @@
+
+character/penguin/penguin.png
+size: 256, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Idle
+  rotate: false
+  xy: 1, 1
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: 1
+walk
+  rotate: false
+  xy: 1, 1
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: 1
+Idle
+  rotate: false
+  xy: 111, 3
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: 2
+hurt
+  rotate: false
+  xy: 23, 1
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: 1
+walk
+  rotate: false
+  xy: 45, 1
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: 2
+walk
+  rotate: false
+  xy: 67, 1
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: 3
+walk
+  rotate: false
+  xy: 89, 1
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: 4

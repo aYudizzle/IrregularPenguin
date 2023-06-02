@@ -1,0 +1,174 @@
+
+character/questioner/questioner.png
+size: 512, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+blue_blink
+  rotate: false
+  xy: 1, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+blue_idle
+  rotate: false
+  xy: 1, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+blue_blink
+  rotate: false
+  xy: 19, 3
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: 2
+blue_blink
+  rotate: false
+  xy: 225, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 3
+blue_blink
+  rotate: false
+  xy: 245, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 4
+green_blink
+  rotate: false
+  xy: 245, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 4
+orange_blink
+  rotate: false
+  xy: 245, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 4
+red_blink
+  rotate: false
+  xy: 245, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 4
+blue_idle
+  rotate: false
+  xy: 99, 2
+  size: 16, 27
+  orig: 16, 27
+  offset: 0, 0
+  index: 2
+green_blink
+  rotate: false
+  xy: 39, 3
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: 2
+green_blink
+  rotate: false
+  xy: 117, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+green_idle
+  rotate: false
+  xy: 117, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+green_blink
+  rotate: false
+  xy: 265, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 3
+green_idle
+  rotate: false
+  xy: 171, 2
+  size: 16, 27
+  orig: 16, 27
+  offset: 0, 0
+  index: 2
+orange_blink
+  rotate: false
+  xy: 59, 3
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: 2
+orange_blink
+  rotate: false
+  xy: 135, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+orange_idle
+  rotate: false
+  xy: 135, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+orange_blink
+  rotate: false
+  xy: 285, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 3
+orange_idle
+  rotate: false
+  xy: 189, 2
+  size: 16, 27
+  orig: 16, 27
+  offset: 0, 0
+  index: 2
+red_blink
+  rotate: false
+  xy: 79, 3
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: 2
+red_blink
+  rotate: false
+  xy: 153, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+red_idle
+  rotate: false
+  xy: 153, 1
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+red_blink
+  rotate: false
+  xy: 305, 6
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: 3
+red_idle
+  rotate: false
+  xy: 207, 2
+  size: 16, 27
+  orig: 16, 27
+  offset: 0, 0
+  index: 2

@@ -1,0 +1,40 @@
+{
+Color: {
+	RGBA_0_0_0_255: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	RGBA_255_255_255_255: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+LabelStyle: {
+	default: {
+		font: PressStart2P-Regular-12
+		fontColor: RGBA_0_0_0_255
+		background: speechbubble
+	}
+}
+TextFieldStyle: {
+	default: {
+		font: PressStart2P-Regular
+		fontColor: RGBA_0_0_0_255
+		focusedFontColor: RGBA_0_0_0_255
+		disabledFontColor: RGBA_255_255_255_255
+		background: Border
+		disabledBackground: Border_grau
+		messageFont: PressStart2P-Regular
+		messageFontColor: RGBA_0_0_0_255
+	}
+}
+TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}
