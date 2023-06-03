@@ -19,6 +19,10 @@ LabelStyle: {
 		fontColor: RGBA_0_0_0_255
 		background: speechbubble
 	}
+	highscore-label-style: {
+		font: PressStart2P-Regular
+		fontColor: RGBA_0_0_0_255
+	}
 }
 TextFieldStyle: {
 	default: {

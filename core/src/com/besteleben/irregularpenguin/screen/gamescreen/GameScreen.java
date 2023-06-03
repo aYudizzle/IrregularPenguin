@@ -69,9 +69,9 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         //rgb value / 255, da libGdx lediglich Werte zwischen 0 und 1 verarbeiten kann.
         ScreenUtils.clear(new Color(186 / 255f, 235 / 255f, 255 / 255f, 1));
-        stage.act(delta);
-        stage.draw();
-        controller.update();
+            stage.act(delta);
+            stage.draw();
+            controller.update();
     }
 
     /**
@@ -107,6 +107,7 @@ public class GameScreen extends ScreenAdapter {
      */
     @Override
     public void show() {
+        controller.startGame();
     }
 
 

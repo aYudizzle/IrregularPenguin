@@ -11,10 +11,12 @@ public class LifeBar extends Group {
     private final TextureRegion alternativeTexture;
     private int maxLife;
 
+    private int actutalLife;
+
     public LifeBar(TextureRegion heartTexture, TextureRegion alternativeTexture) {
         this.heartTexture = heartTexture;
         this.alternativeTexture = alternativeTexture;
-        createdHeartContainers();
+        maxLife = -1;
     }
 
     private void createdHeartContainers() {
@@ -26,8 +28,12 @@ public class LifeBar extends Group {
     }
 
     public void setFilledHearts(int lifeCount){
+        if(maxLife == -1){
+            maxLife = lifeCount;
+            createdHeartContainers();
+        }
+        actutalLife = lifeCount;
         int displayedLife = MathUtils.clamp(lifeCount,0,maxLife);
-
         for (int i = 0; i < getChildren().size; i++) {
             Actor heart = getChildren().get(i);
             if(heart instanceof HeartContainer) {
@@ -36,6 +42,14 @@ public class LifeBar extends Group {
                 heartContainer.setAlive(alive);
             }
         }
+    }
 
+    /**
+     * Gets actutalLife.
+     *
+     * @return value of actutalLife
+     */
+    public int getActutalLife() {
+        return actutalLife;
     }
 }

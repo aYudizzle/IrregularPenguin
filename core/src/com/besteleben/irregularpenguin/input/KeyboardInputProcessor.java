@@ -4,9 +4,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.besteleben.irregularpenguin.entities.components.AnswerTextField;
 
+/**
+ * KeyboardInputProcessor decides how to handle different types of Keyboard Inputs
+ */
 public class KeyboardInputProcessor implements InputProcessor {
+    /**
+     * reference to the answertextfield
+     */
     private final AnswerTextField answerTextField;
 
+    /**
+     * Constructor for the inputprocessor which handles keyboard inputs
+     */
     public KeyboardInputProcessor(AnswerTextField answerTextField) {
         this.answerTextField = answerTextField;
     }
@@ -41,9 +50,10 @@ public class KeyboardInputProcessor implements InputProcessor {
      */
     @Override
     public boolean keyTyped(char character) {
-        if(!answerTextField.isDisabled()){
+        if (!answerTextField.isDisabled()) {
             // bei der ersten betaetigung des keyboard loesche das textfield erstmal
-            if(answerTextField.getText().equals(answerTextField.getTextToDefault())) {
+            if (answerTextField.getText().equals(answerTextField.getTextToDefault()) ||
+                    answerTextField.getTextNextRound().contains(answerTextField.getText())) {
                 answerTextField.setText("");
             }
             // backspace (entferne einen char)

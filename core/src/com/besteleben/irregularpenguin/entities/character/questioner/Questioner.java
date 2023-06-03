@@ -8,11 +8,11 @@ public interface Questioner {
     /**
      * for displaying the Question
      */
-    void showQuestion();
+    void settingUpQuestion(String verb);
 
     /**
      * Processing the answer if right or wrong
-     * @param answer given answer from an user input
+     * @param answerRight given answer from an user input right or wrong
      */
-    void processAnswer(String answer); //todo kann noch als default erstellt werden und ein standard processing erstellt werden
+    void processRightAnswer(); //todo kann noch als default erstellt werden und ein standard processing erstellt werden
 }

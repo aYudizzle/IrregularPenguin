@@ -12,10 +12,8 @@ import com.besteleben.irregularpenguin.entities.character.IngameCharacter;
 public class Penguin extends IngameCharacter {
     private Animation<TextureRegion> runAnimation;
     private Animation<TextureRegion> hurtAnimation;
-    private int life;
-    private boolean running;
-    private boolean reachedCenter;
-    private boolean movingRight;
+    private boolean answered = false;
+    private boolean defeated = false;
 
     public Penguin(float frameDuration, float defaultX, float defaultY){
         this.defaultX = defaultX;
@@ -23,14 +21,13 @@ public class Penguin extends IngameCharacter {
         TextureAtlas textureAtlas = new TextureAtlas("penguin.atlas");
         String runRegionName = "walk"; // tag for run animation in penguin.atlas
         String idleRegionName = "Idle"; // Idle for idle animation in penguin.atlas
-        this.life = 3;
         Array<TextureAtlas.AtlasRegion> runFrames = textureAtlas.findRegions(runRegionName);
         Array<TextureAtlas.AtlasRegion> idleFrames = textureAtlas.findRegions(idleRegionName);
         Array<TextureAtlas.AtlasRegion> hurtFrames = textureAtlas.findRegions("hurt");
 
-        this.runAnimation = new Animation<TextureRegion>(frameDuration,runFrames, Animation.PlayMode.LOOP);
-        idleAnimation = new Animation<TextureRegion>(frameDuration,idleFrames, Animation.PlayMode.LOOP);
-        this.hurtAnimation = new Animation<TextureRegion>(frameDuration,hurtFrames,Animation.PlayMode.LOOP);
+        this.runAnimation = new Animation<>(frameDuration,runFrames, Animation.PlayMode.LOOP);
+        idleAnimation = new Animation<>(frameDuration,idleFrames, Animation.PlayMode.LOOP);
+        this.hurtAnimation = new Animation<>(frameDuration,hurtFrames,Animation.PlayMode.LOOP);
         setSize(runFrames.first().getRegionWidth(),runFrames.first().getRegionHeight());
 
         setY(this.defaultY);
@@ -38,9 +35,6 @@ public class Penguin extends IngameCharacter {
 
         currentRegion = new TextureRegion();
         setScale(2);
-        running = true;
-        movingRight = false;
-        reachedCenter = false;
     }
 
     /**
@@ -64,112 +58,99 @@ public class Penguin extends IngameCharacter {
     }
 
     public void updateAppearance() {
-        //todo UpdateAppearance im gamecontroller aufgerufen.
-        // maybe noch implementieren
-        if(running){
-            TextureRegion currentFrame = runAnimation.getKeyFrame(elapsedTime);
-            setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
-            currentRegion.setRegion(currentFrame);
-            ;
-            // Überprüfe, ob der Actor die Mitte erreicht hat
-            if(!reachedCenter){
-                moveBy(4,0);
-            }
-            if (getX() + getWidth() / 2 >= getStage().getWidth() / 2 - (4.9f*currentFrame.getRegionWidth()) && !reachedCenter) {
-                reachedCenter = true;
-                running = false; // Wechsle zum Idle-Zustand
-//                movingRight = true; // Bewege nach rechts
+
+        if (!answered) {
+            if (!hasReachedCenter()) {
+                running();
+            } else {
+                if (defeated) {
+                    hurt();
+                } else {
+                    idle();
+                }
             }
         } else {
-            // Führe die Idle-Animation aus
-            TextureRegion currentFrame = idleAnimation.getKeyFrame(elapsedTime);
-            setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
-            currentRegion.setRegion(currentFrame);
-
-            // Bewege nach rechts, wenn isMovingRight true ist
-            if (movingRight) {
-//                moveBy(1, 0); // Ändere die Werte entsprechend deiner Anforderungen
+//            hurt();
+            running();
             }
         }
-    }
-    public void decreaseLife() {
-        if(life>0){
-            life--;
-        }
-    }
-
-    public void increaseLife() {
-        if(life<3){
-            life++;
-        }
-    }
 
 
-    /**
-     * Gets running.
-     *
-     * @return value of running
-     */
-    public boolean isRunning() {
-        return running;
+    private void hurt() {
+        TextureRegion currentFrame;
+        currentFrame = hurtAnimation.getKeyFrame(elapsedTime);
+        setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
+        currentRegion.setRegion(currentFrame);
     }
 
-    /**
-     * Sets running.
-     *
-     * @param running value of running
-     */
-    public void setRunning(boolean running) {
-        this.running = running;
+    public void idle(){
+        TextureRegion currentFrame;
+        currentFrame = idleAnimation.getKeyFrame(elapsedTime);
+        setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
+        currentRegion.setRegion(currentFrame);
+    }
+    public void running(){
+        TextureRegion currentFrame;
+        currentFrame = runAnimation.getKeyFrame(elapsedTime);
+        setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
+        currentRegion.setRegion(currentFrame);
+        moveBy(4,0);
     }
 
-    /**
-     * Gets reachedCenter.
-     *
-     * @return value of reachedCenter
-     */
-    public boolean isReachedCenter() {
-        return reachedCenter;
+    public boolean hasReachedCenter() {
+        float centerX = getX() + getWidth() / 2;
+        float stageCenterX = getStage().getWidth() / 2 - (4.9f*currentRegion.getRegionWidth()); // für eine gewisse verschiebung nach links
+        return centerX == stageCenterX;
     }
 
-    /**
-     * Sets reachedCenter.
-     *
-     * @param reachedCenter value of reachedCenter
-     */
-    public void setReachedCenter(boolean reachedCenter) {
-        this.reachedCenter = reachedCenter;
+//    public boolean hasReachedRight() {
+//        float penguinRightX = getX() + getWidth(); // Rechte Grenze des Pinguins
+//        float stageRightX = getStage().getWidth(); // Rechte Grenze der Stage
+//        return penguinRightX >= stageRightX;
+//    }
+
+
+    public void reset() {
+        setX(defaultX);
+        answered = false;
+
     }
 
     /**
-     * Gets movingRight.
+     * Gets answered.
      *
-     * @return value of movingRight
+     * @return value of answered
      */
-    public boolean isMovingRight() {
-        return movingRight;
+    public boolean isAnswered() {
+        return answered;
     }
 
     /**
-     * Sets movingRight.
+     * Sets answered.
      *
-     * @param movingRight value of movingRight
+     * @param answered value of answered
      */
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
     }
-
-
 
     /**
-     * Gets life.
+     * Gets defeated.
      *
-     * @return value of life
+     * @return value of defeated
      */
-    public int getLife() {
-        return life;
+    public boolean isDefeated() {
+        return defeated;
     }
 
+    /**
+     * Sets defeated.
+     *
+     * @param defeated value of defeated
+     */
+    public void setDefeated(boolean defeated) {
+        this.defeated = defeated;
+    }
 
 }
 
