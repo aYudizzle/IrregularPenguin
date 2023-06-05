@@ -1,11 +1,13 @@
-package com.besteleben.irregularpenguin.data;
+package com.besteleben.irregularpenguin.data.repository;
+
+import com.besteleben.irregularpenguin.data.objects.Vocabulary;
 
 import java.sql.*;
 /**
  * Implementierung des Vocabulary Dao anhand einer Maria DB. Diese implementierung benutzt den Treiber der Maria db.
  */
 
-public class VocabularyDaoImpl implements VocabularyDao {
+public class VocabularyRepositoryImpl implements VocabularyRepository {
     /**
      * die Datenbank Adresse mit Auswahl des richtigen Treibers
      */

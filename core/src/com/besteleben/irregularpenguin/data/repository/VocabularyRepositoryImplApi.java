@@ -1,6 +1,7 @@
-package com.besteleben.irregularpenguin.data;
+package com.besteleben.irregularpenguin.data.repository;
 
 
+import com.besteleben.irregularpenguin.data.objects.Vocabulary;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpEntity;
@@ -15,13 +16,13 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-public class VocabularyDaoImplApi implements VocabularyDao{
+public class VocabularyRepositoryImplApi implements VocabularyRepository {
     /** http client for getting data from api */
     private HttpClient httpClient;
     /** GSON to work with the requested data */
     private Gson gson;
     /** Constructor to create the DAO */
-    public VocabularyDaoImplApi() {
+    public VocabularyRepositoryImplApi() {
         httpClient = HttpClientBuilder.create().build();
         gson = new Gson();
     }
@@ -54,7 +55,7 @@ public class VocabularyDaoImplApi implements VocabularyDao{
                 responseData = EntityUtils.toString(entity);
             }
         } catch (IOException exception) {
-            System.err.println("Api nicht erreichbar");
+            System.err.println("Api im moment nicht erreichbar");
         }
         return responseData;
     }

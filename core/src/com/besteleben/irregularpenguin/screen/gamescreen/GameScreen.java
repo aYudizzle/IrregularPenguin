@@ -8,8 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.besteleben.irregularpenguin.controller.GameController;
+import com.besteleben.irregularpenguin.data.repository.HighscoreRepositoryImpl;
+import com.besteleben.irregularpenguin.data.repository.SettingsRepositoryImpl;
+import com.besteleben.irregularpenguin.data.repository.VocabularyRepositoryImplApi;
 import com.besteleben.irregularpenguin.input.KeyboardInputProcessor;
+import com.besteleben.irregularpenguin.input.dialogs.SettingsDialogBox;
 import com.besteleben.irregularpenguin.screen.gamescreen.util.ResourceManager;
+import com.besteleben.irregularpenguin.service.HighscoreService;
+import com.besteleben.irregularpenguin.service.SettingsService;
+import com.besteleben.irregularpenguin.service.VocabularyService;
 
 /**
  * Der GameScreen, welcher fuer den Spielablauf da ist.
@@ -25,6 +32,12 @@ public class GameScreen extends ScreenAdapter {
     private ResourceManager resourceManager;
     /** register all inputs */
     private InputMultiplexer inputMultiplexer;
+    /** Reference to the Highscore Service */
+    private HighscoreService highscoreService;
+    /** Reference to the Settings Service */
+    private SettingsService settingsService;
+    /** Reference to the VocabularyService */
+    private VocabularyService vocabularyService;
 
     /**
      * Konstruktor der den GameScreen erstellt. Außerdem die Stage, sowie eine Instanz des GameControllers,
@@ -32,19 +45,34 @@ public class GameScreen extends ScreenAdapter {
      */
     public GameScreen() {
         viewport = new FitViewport(800,600);
-
         stage = new GameStage(viewport);
-        controller = new GameController(stage);
         stage.setViewport(viewport);
+        createServices();
+        controller = new GameController(stage, settingsService,highscoreService,vocabularyService);
+
         resourceManager = ResourceManager.getInstance();
         inputMultiplexer = new InputMultiplexer();
         createButtonClickListener();
-        KeyboardInputProcessor answerInputProcessor = new KeyboardInputProcessor(stage.getAnswerTextField());
+        createInputListener();
+        viewport.apply();
+    }
 
+    /**
+     * helper method for the constructor, so the constructor is not bloated.
+     */
+    private void createInputListener() {
+        KeyboardInputProcessor answerInputProcessor = new KeyboardInputProcessor(stage.getAnswerTextField());
+        inputMultiplexer.addProcessor(stage.getHighscoreButton().getStage());
+        inputMultiplexer.addProcessor(stage.getRestartButton().getStage());
         inputMultiplexer.addProcessor(stage.getAnswerButton().getStage());
         inputMultiplexer.addProcessor(answerInputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        viewport.apply();
+    }
+
+    private void createServices() {
+        settingsService = new SettingsService(new SettingsRepositoryImpl());
+        highscoreService = new HighscoreService(new HighscoreRepositoryImpl());
+        vocabularyService = new VocabularyService(new VocabularyRepositoryImplApi());
     }
 
     /**
@@ -55,6 +83,40 @@ public class GameScreen extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 controller.handleUserInput(stage.getAnswerTextField().getText());
+                return true;
+            }
+        });
+        stage.getHighscoreButton().addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                controller.showHighscore();
+                return true;
+            }
+        });
+        stage.getRestartButton().addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                controller.startNewGame();
+                return true;
+            }
+        });
+
+        stage.getSettingsButton().addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                controller.showSettings();
+                return true;
+            }
+        });
+
+        SettingsDialogBox settingsDialogBox = stage.getSettingsDialogBox();
+        settingsDialogBox.getSaveButton().addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                String wantedPlayername = settingsDialogBox.getPlayerNameField().getText();
+                settingsDialogBox.setPlayerName(wantedPlayername);
+                controller.changePlayerName(wantedPlayername);
+                settingsDialogBox.hide();
                 return true;
             }
         });
@@ -71,7 +133,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(new Color(186 / 255f, 235 / 255f, 255 / 255f, 1));
             stage.act(delta);
             stage.draw();
-            controller.update();
+//            controller.update();
     }
 
     /**
@@ -116,7 +178,6 @@ public class GameScreen extends ScreenAdapter {
      */
     @Override
     public void pause() {
-
     }
 
     /**
@@ -124,6 +185,5 @@ public class GameScreen extends ScreenAdapter {
      */
     @Override
     public void resume() {
-
     }
 }

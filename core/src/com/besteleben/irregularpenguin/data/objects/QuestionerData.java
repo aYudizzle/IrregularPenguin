@@ -1,4 +1,4 @@
-package com.besteleben.irregularpenguin.data;
+package com.besteleben.irregularpenguin.data.objects;
 
 import com.besteleben.irregularpenguin.entities.character.questioner.QuestionerGhostColor;
 /** object to transport data from service to controller. */

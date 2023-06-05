@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
  * ResourceManager zum erstellen des Skins und der benoetigten Bitmap Fonts
- * dieser sollte auch nur einmal erstellt werden koennen und nicht mehrfach instanziiert werden.
- * Demnach kommt hier das Singleton Pattern zur Anwendung um dies sicherzustellen.
+ * dieser sollte auch nur einmal erstellt werden koennen und nicht mehrfach instanziiert werden. (Da dies sehr ressourcen hungrig ist)
+ * Demnach kommt hier das Singleton Pattern zur Anwendung, um dies sicherzustellen.
  */
 public class ResourceManager {
     /** Beinhaltet die einzige instanz referenz eines Resourcemanagers */

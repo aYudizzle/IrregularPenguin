@@ -1,9 +1,9 @@
 package com.besteleben.irregularpenguin.service;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.besteleben.irregularpenguin.data.QuestionerData;
-import com.besteleben.irregularpenguin.data.Vocabulary;
-import com.besteleben.irregularpenguin.data.VocabularyDao;
+import com.besteleben.irregularpenguin.data.objects.QuestionerData;
+import com.besteleben.irregularpenguin.data.objects.Vocabulary;
+import com.besteleben.irregularpenguin.data.repository.VocabularyRepository;
 import com.besteleben.irregularpenguin.entities.character.questioner.QuestionerGhostColor;
 
 /**
@@ -13,7 +13,7 @@ public class VocabularyService {
     /**
      * data source of choice
      */
-    private VocabularyDao dataSource;
+    private VocabularyRepository dataSource;
     /**
      * asked verb
      */
@@ -26,7 +26,7 @@ public class VocabularyService {
     /**
      * concstructor to get a service with the certain data source
      */
-    public VocabularyService(VocabularyDao dataSource) {
+    public VocabularyService(VocabularyRepository dataSource) {
         this.dataSource = dataSource;
     }
     /** to get a random vocabulary */

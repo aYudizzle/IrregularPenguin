@@ -13,5 +13,5 @@ public interface Questioner {
     /**
      * Processing the answer if right or wrong
      */
-    void processRightAnswer(); //todo kann noch als default erstellt werden und ein standard processing erstellt werden
+    void processRightAnswer();
 }

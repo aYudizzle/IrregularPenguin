@@ -1,44 +1,80 @@
 {
-Color: {
-	RGBA_0_0_0_255: {
-		r: 0
-		g: 0
-		b: 0
-		a: 1
-	}
-	RGBA_255_255_255_255: {
-		r: 1
-		g: 1
-		b: 1
-		a: 1
-	}
-}
-LabelStyle: {
-	default: {
-		font: PressStart2P-Regular-12
-		fontColor: RGBA_0_0_0_255
-		background: speechbubble
-	}
-	highscore-label-style: {
-		font: PressStart2P-Regular
-		fontColor: RGBA_0_0_0_255
-	}
-}
-TextFieldStyle: {
-	default: {
-		font: PressStart2P-Regular
-		fontColor: RGBA_0_0_0_255
-		focusedFontColor: RGBA_0_0_0_255
-		disabledFontColor: RGBA_255_255_255_255
-		background: Border
-		disabledBackground: Border_grau
-		messageFont: PressStart2P-Regular
-		messageFontColor: RGBA_0_0_0_255
-	}
-}
-TextTooltipStyle: {
-	default: {
-		label: default
-	}
-}
+  Color: {
+    RGBA_0_0_0_255: {
+      r: 0
+      g: 0
+      b: 0
+      a: 1
+    }
+    RGBA_0_224_255_255: {
+      r: 0
+      g: 0.8784314
+      b: 1
+      a: 1
+    }
+    WHITE: {
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    }
+  }
+  LabelStyle: {
+    default: {
+      font: PressStart2P-Regular-12
+      fontColor: RGBA_0_0_0_255
+      background: speechbubble
+    }
+    highscore-label-style: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+    }
+    dialog-label-style: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+    }
+    dialoghs-label-style: {
+      font: PressStart2P-Regular-12
+      fontColor: WHITE
+    }
+  }
+  TextFieldStyle: {
+    default: {
+      font: PressStart2P-Regular
+      fontColor: RGBA_0_0_0_255
+      focusedFontColor: RGBA_0_0_0_255
+      disabledFontColor: WHITE
+      background: Border
+      disabledBackground: Border_grau
+      messageFont: PressStart2P-Regular-12
+      messageFontColor: RGBA_0_0_0_255
+    }
+    dialogTextfield: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+      focusedFontColor: RGBA_0_224_255_255
+      disabledFontColor: WHITE
+      messageFont: PressStart2P-Regular
+      messageFontColor: RGBA_0_224_255_255
+    }
+  }
+  TextTooltipStyle: {
+    default: {
+      label: default
+    }
+  }
+  WindowStyle: {
+    default: {
+      titleFont: PressStart2P-Regular
+      titleFontColor: RGBA_0_0_0_255
+    }
+  }
+  TextButtonStyle: {
+    default: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+      downFontColor: WHITE
+      overFontColor: RGBA_0_224_255_255
+    }
+  }
 }

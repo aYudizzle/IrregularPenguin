@@ -1,11 +1,16 @@
 package com.besteleben.irregularpenguin.controller;
 
 import com.badlogic.gdx.utils.Timer;
-import com.besteleben.irregularpenguin.data.QuestionerData;
-import com.besteleben.irregularpenguin.data.VocabularyDaoImplApi;
+
+import com.besteleben.irregularpenguin.data.objects.HighscoreEntry;
+import com.besteleben.irregularpenguin.data.objects.QuestionerData;
 import com.besteleben.irregularpenguin.entities.Player;
 import com.besteleben.irregularpenguin.screen.gamescreen.GameStage;
+import com.besteleben.irregularpenguin.service.HighscoreService;
+import com.besteleben.irregularpenguin.service.SettingsService;
 import com.besteleben.irregularpenguin.service.VocabularyService;
+
+import java.util.List;
 
 /**
  * Class for controlling User Input and business logic at all.
@@ -25,6 +30,14 @@ public class GameController {
      */
     private final VocabularyService vocabularyService;
     /**
+     * Service for the Highscore
+     */
+    private final HighscoreService highscoreService;
+    /**
+     * Service for the player configuration
+     */
+    private final SettingsService settingsService;
+    /**
      * Question Data which is needed to ask for the answer
      */
     public QuestionerData questionerData;
@@ -33,13 +46,13 @@ public class GameController {
     /**
      * constructing the mediator for communication between middletier and frontend
      */
-    public GameController(GameStage stage) {
+    public GameController(GameStage stage, SettingsService settingsService, HighscoreService highscoreService, VocabularyService vocabularyService) {
         this.stage = stage;
-        vocabularyService = new VocabularyService(new VocabularyDaoImplApi());
-        player = new Player();
+        this.vocabularyService = vocabularyService;
+        this.highscoreService = highscoreService;
+        this.settingsService = settingsService;
+        player = new Player(this.settingsService.getConfig().getPlayerName());
     }
-
-
     /**
      * get called when the user input needs to be validated by the middletier
      */
@@ -59,7 +72,6 @@ public class GameController {
                 @Override
                 public void run() {
                     nextRound();
-                    System.out.println(questionerData);
                 }
             }, 3f);
         }
@@ -70,18 +82,26 @@ public class GameController {
      * method for the interaction when the game is over
      */
     private void gameOver() {
-        //todo
+        HighscoreEntry playerEntry = new HighscoreEntry(player.getPlayerName(), player.getHighscore());
+        highscoreService.addHighscoreEntry(playerEntry);
+        showHighscore();
     }
 
+    /**
+     * method get called when the player name in the settings is getting changed
+     */
+    public void changePlayerName(String playerName){
+        player.setPlayerName(playerName);
+        settingsService.getConfig().setPlayerName(playerName);
+        settingsService.saveConfig();
+    }
     /**
      * method gets call when the answer is correct and the
      * next round shall start.
      */
-
     public void nextRound() {
         questionerData = vocabularyService.generateNextQuestion();
         stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
-
         stage.reset();
     }
 
@@ -94,10 +114,27 @@ public class GameController {
     }
 
     /**
-     * Function to update the Screen on certain events - get called by GameScreen regularly
+     * method to start a new game start a new game
      */
-    public void update() {
-
+    public void startNewGame(){
+        questionerData = vocabularyService.generateNextQuestion();
+        player.reset();
+        stage.prepareNewGame(questionerData, player.getLife(),player.getHighscore());
     }
 
+    /**
+     * method to show the actual highscore
+     */
+    public void showHighscore(){
+        List<HighscoreEntry> highscoreList = highscoreService.getHighscoreList();
+        stage.showHighscore(highscoreList);
+    }
+
+    /**
+     * method to show settings
+     */
+    public void showSettings() {
+        String actualPlayername = player.getPlayerName();
+        stage.showSettingsDialog(actualPlayername);
+    }
 }

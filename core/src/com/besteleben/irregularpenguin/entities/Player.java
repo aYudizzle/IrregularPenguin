@@ -8,9 +8,14 @@ public class Player {
     private int life = 3;
     /** saving the corresponding highscore */
     private int highscore;
-    /** Constructor */
-    public Player(){
+    /**
+     * PlayerName
+     */
+    private String playerName;
 
+    /** Constructor */
+    public Player(String playerName){
+        this.playerName = playerName;
     }
     /** removing the life if the player didnt get the right answer */
     public void decreaseLife(){
@@ -19,6 +24,10 @@ public class Player {
         }
     }
 
+    public void reset(){
+        life = 3;
+        highscore = 0;
+    }
 
     /**
      * increase the high score by 10 * life
@@ -42,5 +51,23 @@ public class Player {
      */
     public int getHighscore() {
         return highscore;
+    }
+
+    /**
+     * Gets playerName.
+     *
+     * @return value of playerName
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
+     * Sets playerName.
+     *
+     * @param playerName value of playerName
+     */
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 }

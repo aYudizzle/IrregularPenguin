@@ -1,6 +1,4 @@
-package com.besteleben.irregularpenguin.data;
-
-import com.besteleben.irregularpenguin.entities.character.questioner.QuestionerGhostColor;
+package com.besteleben.irregularpenguin.data.objects;
 
 /**
  * eine DTO Klasse um die Kommunikation mit der Datenbank zu realisieren

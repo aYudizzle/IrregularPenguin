@@ -69,10 +69,19 @@ public class AnswerTextField extends TextField {
 
     }
 
+    /**
+     * Reset method for the next round of the game
+     */
     public void reset(){
         Collections.shuffle(textNextRound);
         setText("");
         nextRoundTypingAnimation(textNextRound.get(0));
+        setDisabled(true);
+    }
+
+    public void resetForNewGame(){
+        setText("");
+        starTypingAnimation();
         setDisabled(true);
     }
 

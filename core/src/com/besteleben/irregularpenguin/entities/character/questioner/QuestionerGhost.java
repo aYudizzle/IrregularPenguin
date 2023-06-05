@@ -50,7 +50,6 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         questionLabel.setAlignment(Align.top);
         questionLabel.setSize(200, 110);
 
-//        questionLabel.setAlignment(Align.center);
         questionLabel.setScale(0.75f);
         questionLabel.setVisible(false);
         questionLabel.setWrap(true);
@@ -75,6 +74,8 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
      * Updates the actor based on time. Typically this is called each frame by {@link Stage#act(float)}.
      * <p>
      * The default implementation calls {@link Action#act(float)} on each action and removes actions that are complete.
+     *
+     * shows the actual frame by frame so the ghost can appear idle or disappear
      *
      * @param delta Time in seconds since the last frame.
      */
@@ -129,10 +130,10 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     @Override
     public void settingUpQuestion(String verb) {
         if (actualTexture == QuestionerGhostColor.RED) {
-            String labelText = String.format("\nWhat is the\n infinitive of\n %s", verb);
+            String labelText = String.format("\nWhat is the infinitive of\n %s", verb);
             questionLabel.setText(labelText);
         } else {
-            String labelText = String.format("\nWhat is the\n meaning of\n %s", verb);
+            String labelText = String.format("\nWhat is the meaning of\n \"%s\"", verb);
             questionLabel.setText(labelText);
         }
     }
@@ -149,13 +150,13 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
                 questionAnswered = true;
                 questionLabel.setVisible(false);
             }
-        }, 1f);
+        }, 0.3f);
 
     }
 
     /** gets called by stage when the game is over cause the lifebar reached 0 */
     public void gameEnd() {
-        String labelText = "\nGame Over\nbetter luck\nnext time";
+        String labelText = "\nGame Over\nbetter luck next time";
         questionLabel.setText(labelText);
     }
     /**resets the questioner to his default position */
@@ -164,7 +165,6 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         elapsedTimeDisappearing = 0;
         elapsedTime = 0;
         questionAnswered = false;
-        System.out.println(defaultX);
         setX(defaultX+50); //todo why tho ohne 50 verschieben is der ghost offset
     }
     /**
