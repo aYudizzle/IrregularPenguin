@@ -3,17 +3,14 @@ package com.besteleben.irregularpenguin.screen.gamescreen;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.besteleben.irregularpenguin.controller.GameController;
 import com.besteleben.irregularpenguin.data.repository.HighscoreRepositoryImpl;
 import com.besteleben.irregularpenguin.data.repository.SettingsRepositoryImpl;
 import com.besteleben.irregularpenguin.data.repository.VocabularyRepositoryImplApi;
-import com.besteleben.irregularpenguin.entities.components.AnswerTextField;
 import com.besteleben.irregularpenguin.input.KeyboardInputProcessor;
 import com.besteleben.irregularpenguin.input.dialogs.SettingsDialogBox;
 import com.besteleben.irregularpenguin.screen.gamescreen.util.ResourceManager;
@@ -28,13 +25,13 @@ public class GameScreen extends ScreenAdapter {
     /** Verwaltet die Actors die im Screen dargestellt werden */
     private final GameStage stage;
     /** Haelt die Werte des Viewports */
-    private FitViewport viewport;
+    private final FitViewport viewport;
     /** haelt den Mediator der die Kommunikation zwischen Service und Screen darstellt */
-    private GameController controller;
+    private final GameController controller;
     /** Haelt die Instanz des ResourceManager um den Skin an die Stage zu uebergeben */
-    private ResourceManager resourceManager;
+    private final ResourceManager resourceManager;
     /** register all inputs */
-    private InputMultiplexer inputMultiplexer;
+    private final InputMultiplexer inputMultiplexer;
     /** Reference to the Highscore Service */
     private HighscoreService highscoreService;
     /** Reference to the Settings Service */
@@ -74,6 +71,9 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
+    /**
+     * for creating the services - just for keeping the constructor clean
+     */
     private void createServices() {
         settingsService = new SettingsService(new SettingsRepositoryImpl());
         highscoreService = new HighscoreService(new HighscoreRepositoryImpl());
@@ -119,7 +119,6 @@ public class GameScreen extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String wantedPlayername = settingsDialogBox.getPlayerNameField().getText();
-                settingsDialogBox.setPlayerName(wantedPlayername);
                 controller.changePlayerName(wantedPlayername);
                 settingsDialogBox.hide();
                 return true;
@@ -138,7 +137,6 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(new Color(186 / 255f, 235 / 255f, 255 / 255f, 1));
             stage.act(delta);
             stage.draw();
-//            controller.update();
     }
 
     /**
@@ -171,24 +169,10 @@ public class GameScreen extends ScreenAdapter {
 
     /**
      * Called when this screen becomes the current screen for a {@link Game}.
+     * calls the controller.startGame Method to start the first round of the game
      */
     @Override
     public void show() {
         controller.startGame();
-    }
-
-
-    /**
-     * @see ApplicationListener#pause()
-     */
-    @Override
-    public void pause() {
-    }
-
-    /**
-     * @see ApplicationListener#resume()
-     */
-    @Override
-    public void resume() {
     }
 }

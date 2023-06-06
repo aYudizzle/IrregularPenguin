@@ -17,7 +17,7 @@ public class AnswerTextField extends TextField {
     /**
      * default text for the start of the game
      */
-    private String textToDefault;
+    private final String textToDefault;
 
     /**
      * list of phrases if the user hits the next round a phrase of this list is getting displayed
@@ -37,7 +37,7 @@ public class AnswerTextField extends TextField {
         setPosition((800 - getWidth()) / 2, 10);
         setDisabled(true);
         setMaxLength(35);
-        starTypingAnimation();
+        starTypingAnimation(textToDefault);
         setAlignment(Align.center);
         createListOfPhrases();
     }
@@ -55,6 +55,7 @@ public class AnswerTextField extends TextField {
 
     /**
      * types the text with a typing animation.
+     * @param textToType text who should be animated and gets typed.
      */
     private void starTypingAnimation(String textToType) {
         Timer.schedule(new Timer.Task() {

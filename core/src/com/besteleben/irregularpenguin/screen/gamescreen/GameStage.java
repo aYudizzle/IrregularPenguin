@@ -65,7 +65,7 @@ public class GameStage extends Stage {
     /**
      * Answer Textfield to receive user input
      */
-    private AnswerTextField answerTextField;
+    private final AnswerTextField answerTextField;
     /**
      * displays the background
      */
@@ -81,7 +81,7 @@ public class GameStage extends Stage {
     /**
      * Label to display the highscore in the top center of the screen
      */
-    private Label highscoreDisplay;
+    private final Label highscoreDisplay;
     /**
      * table to adjust the image button for restarting the game, open up settings dialog and the highscore to the top right corner
      */
@@ -183,14 +183,6 @@ public class GameStage extends Stage {
         super.addActor(actor);
     }
 
-    /**
-     * to remove actors from the stage
-     */
-    public void removeActor(Actor actor) {
-        gameActors.remove(actor);
-        actor.remove();
-    }
-
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -215,6 +207,12 @@ public class GameStage extends Stage {
         questionerGhost.getQuestionLabel().setVisible(true);
     }
 
+    /**
+     * preparing the first round
+     * @param questionerData
+     * @param life
+     * @param highscore
+     */
     public void prepareRound(QuestionerData questionerData, int life, int highscore) {
         questionerGhost.setActualTexture(questionerData.getColor());
         questionerGhost.settingUpQuestion(questionerData.getVerb());
@@ -225,6 +223,8 @@ public class GameStage extends Stage {
 
     /**
      * gets called by the controller when the answer got validated by the middletier
+     * @param life lifes from player
+     * @param result if the answer was right or wrong (true or false)
      */
     public void reactionToAnswer(boolean result, int life) {
         if (result) {
@@ -297,6 +297,9 @@ public class GameStage extends Stage {
 
     /**
      * method gets called when the player want to start a new game
+     * @param highscore the highscore value
+     * @param life players life to be displayed
+     * @param questionerData data which is needed to display the question
      */
     public void prepareNewGame(QuestionerData questionerData, int life, int highscore) {
         penguin.reset();
@@ -328,16 +331,6 @@ public class GameStage extends Stage {
     public AnswerTextField getAnswerTextField() {
         return answerTextField;
     }
-
-    /**
-     * Gets actors.
-     *
-     * @return value of actors
-     */
-    public List<Actor> getGameActors() {
-        return gameActors;
-    }
-
     /**
      * Gets answerButton.
      *
@@ -346,7 +339,6 @@ public class GameStage extends Stage {
     public ImageButton getAnswerButton() {
         return answerButton;
     }
-
     /**
      * Gets restartButton.
      *

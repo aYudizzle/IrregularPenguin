@@ -44,7 +44,11 @@ public class GameController {
 
 
     /**
-     * constructing the mediator for communication between middletier and frontend
+     * constructing the mediator for communication between service and frontend
+     * @param highscoreService highscore service for manage the highscore
+     * @param settingsService for managing game settings
+     * @param stage frontend reference
+     * @param vocabularyService for managing the vocabulary/question
      */
     public GameController(GameStage stage, SettingsService settingsService, HighscoreService highscoreService, VocabularyService vocabularyService) {
         this.stage = stage;
@@ -54,7 +58,9 @@ public class GameController {
         player = new Player(this.settingsService.getConfig().getPlayerName());
     }
     /**
-     * get called when the user input needs to be validated by the middletier
+     * get called when the user input needs to be validated by the service
+     * if the answer is correct it calls the nextRound method after a short delay
+     * @param userInput the answer given by the user
      */
     public void handleUserInput(String userInput) {
         boolean answerCorrect = vocabularyService.checkAnswer(userInput);
@@ -65,7 +71,6 @@ public class GameController {
             }
         }
         stage.reactionToAnswer(answerCorrect, player.getLife());
-
         if (answerCorrect) {
             player.increaseScore();
             Timer.schedule(new Timer.Task() {
@@ -75,9 +80,7 @@ public class GameController {
                 }
             }, 3f);
         }
-
     }
-
     /**
      * method for the interaction when the game is over
      */
@@ -85,15 +88,6 @@ public class GameController {
         HighscoreEntry playerEntry = new HighscoreEntry(player.getPlayerName(), player.getHighscore());
         highscoreService.addHighscoreEntry(playerEntry);
         showHighscore();
-    }
-
-    /**
-     * method get called when the player name in the settings is getting changed
-     */
-    public void changePlayerName(String playerName){
-        player.setPlayerName(playerName);
-        settingsService.getConfig().setPlayerName(playerName);
-        settingsService.saveConfig();
     }
     /**
      * method gets call when the answer is correct and the
@@ -104,7 +98,15 @@ public class GameController {
         stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
         stage.reset();
     }
-
+    /**
+     * method get called when the player name in the settings is getting changed
+     * @param playerName the playerName to save
+     */
+    public void changePlayerName(String playerName){
+        player.setPlayerName(playerName);
+        settingsService.getConfig().setPlayerName(playerName);
+        settingsService.saveConfig();
+    }
     /**
      * this method starts the game initially
      */
@@ -118,7 +120,6 @@ public class GameController {
      */
     public void startNewGame(){
         questionerData = vocabularyService.generateNextQuestion();
-        player.reset();
         stage.prepareNewGame(questionerData, player.getLife(),player.getHighscore());
     }
 
@@ -129,7 +130,6 @@ public class GameController {
         List<HighscoreEntry> highscoreList = highscoreService.getHighscoreList();
         stage.showHighscore(highscoreList);
     }
-
     /**
      * method to show settings
      */

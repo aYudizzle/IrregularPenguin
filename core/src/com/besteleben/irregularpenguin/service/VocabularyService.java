@@ -13,7 +13,7 @@ public class VocabularyService {
     /**
      * data source of choice
      */
-    private VocabularyRepository dataSource;
+    private final VocabularyRepository dataSource;
     /**
      * asked verb
      */
@@ -25,14 +25,12 @@ public class VocabularyService {
 
     /**
      * concstructor to get a service with the certain data source
+     * @param dataSource reference to the source of data
      */
     public VocabularyService(VocabularyRepository dataSource) {
         this.dataSource = dataSource;
     }
-    /** to get a random vocabulary */
-    public Vocabulary getVocabulary() {
-        return dataSource.getRandomVocabulary();
-    }
+
     /** generate Data for the question randomly */
     public QuestionerData generateNextQuestion() {
         QuestionerGhostColor[] questionerTextures = QuestionerGhostColor.values();
@@ -96,6 +94,11 @@ public class VocabularyService {
         return new QuestionerData(color, verb);
     }
 
+    /**
+     * checks if the given answer is right or wrong
+     * @param userAnswer answer of the user
+     * @return true or false depending on if the answer was right or wrong
+     */
     public boolean checkAnswer(String userAnswer){
         String[] possibleAnswers = expectedAnswer.split(",");
         for(String possibleAnswer : possibleAnswers){

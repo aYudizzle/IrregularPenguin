@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -14,7 +13,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.besteleben.irregularpenguin.entities.character.IngameCharacter;
 
-/** representing the questioner in the game who displays the asked verb */
+/**
+ * representing the questioner in the game who displays the asked verb
+ * Questioner extends IngameCharacter but needs few more options
+ * implements the Questioner Interface to add other functionalities
+ *
+ * */
 public class QuestionerGhost extends IngameCharacter implements Questioner {
     /** keeps the .atlas file for the different textures */
     private final TextureAtlas textureAtlas = new TextureAtlas("questioner.atlas");
@@ -37,7 +41,14 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
      */
     private Table speechBubbleTable;
 
-    /** constructor with base settings for the questioner ghost */
+    /**
+     * constructor with base settings for the questioner ghost
+     *
+     * @param defaultX default X-Coordinate
+     * @param defaultY default Y-Coordinate
+     * @param skin skin settings coming from the resourcemanager
+     * @param frameDuration how long should every single frame last
+     * */
     public QuestionerGhost(float frameDuration, float defaultX, float defaultY, Skin skin) {
         this.defaultY = defaultY;
         //150px to the right to get the ghost off center and infront of the penguin
@@ -90,8 +101,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
      * Updates the actor based on time. Typically this is called each frame by {@link Stage#act(float)}.
      * <p>
      * The default implementation calls {@link Action#act(float)} on each action and removes actions that are complete.
-     *
-     * shows the actual frame by frame so the ghost can appear idle or disappear
+     * shows the actual frame by frame so the ghost can appear, idle or disappear.
      *
      * @param delta Time in seconds since the last frame.
      */
@@ -126,9 +136,9 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
      *
      * draws the ghost and if questionLabel.isVisible() = true the table with the speechbbubble is drawn too.
      *
-     * @param batch
+     * @param batch Batch to draw the currentTextureRegion
      * @param parentAlpha The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
-     *                    children.
+     *                    children. In this case there is no custom Alpha value sind everything should be fully visible
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -142,6 +152,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     }
     /**
      * for displaying the Question and setting up the Data for the label etc.
+     * @param verb the verb which should get displayed
      */
     @Override
     public void settingUpQuestion(String verb) {
@@ -169,7 +180,9 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         }, 0.3f);
     }
 
-    /** gets called by stage when the game is over cause the lifebar reached 0 */
+    /**
+     * gets called by stage when the game is over cause the lifebar reached 0
+     * */
     public void gameEnd() {
         String labelText = "Game Over\nbetter luck next time";
         questionLabel.setText(labelText);
