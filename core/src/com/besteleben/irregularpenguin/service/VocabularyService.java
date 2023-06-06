@@ -45,22 +45,53 @@ public class VocabularyService {
                 expectedAnswer = vocabulary.getInfinitive();
                 break;
             case BLUE:
+                verb = vocabulary.getGerman();
+                expectedAnswer = vocabulary.getSimple_past();
+                break;
+            case GREEN:
+                verb = vocabulary.getGerman();
+                expectedAnswer = vocabulary.getPast_participle();
+                break;
+            case ORANGE:
                 verb = vocabulary.getInfinitive();
                 expectedAnswer = vocabulary.getGerman();
                 break;
-            case GREEN:
+            case DARKBLUE:
+                verb = vocabulary.getInfinitive();
+                expectedAnswer = vocabulary.getSimple_past();
+                break;
+            case LIGHTBLUE:
+                verb = vocabulary.getInfinitive();
+                expectedAnswer = vocabulary.getPast_participle();
+                break;
+            case LIGHTPURPLE:
                 verb = vocabulary.getSimple_past();
                 expectedAnswer = vocabulary.getGerman();
                 break;
-            case ORANGE:
+            case PINKRED:
+                verb = vocabulary.getSimple_past();
+                expectedAnswer = vocabulary.getInfinitive();
+                break;
+            case PURPLE:
+                verb = vocabulary.getSimple_past();
+                expectedAnswer = vocabulary.getPast_participle();
+                break;
+            case TURQUOISE:
                 verb = vocabulary.getPast_participle();
                 expectedAnswer = vocabulary.getGerman();
+                break;
+            case YELLOW:
+                verb = vocabulary.getPast_participle();
+                expectedAnswer = vocabulary.getInfinitive();
+                break;
+            case PINK:
+                verb = vocabulary.getPast_participle();
+                expectedAnswer = vocabulary.getSimple_past();
                 break;
             default:
                 verb = vocabulary.getGerman();
                 expectedAnswer = vocabulary.getInfinitive();
                 break;
-
         }
         return new QuestionerData(color, verb);
     }

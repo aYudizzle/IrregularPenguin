@@ -3,14 +3,17 @@ package com.besteleben.irregularpenguin.screen.gamescreen;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.besteleben.irregularpenguin.controller.GameController;
 import com.besteleben.irregularpenguin.data.repository.HighscoreRepositoryImpl;
 import com.besteleben.irregularpenguin.data.repository.SettingsRepositoryImpl;
 import com.besteleben.irregularpenguin.data.repository.VocabularyRepositoryImplApi;
+import com.besteleben.irregularpenguin.entities.components.AnswerTextField;
 import com.besteleben.irregularpenguin.input.KeyboardInputProcessor;
 import com.besteleben.irregularpenguin.input.dialogs.SettingsDialogBox;
 import com.besteleben.irregularpenguin.screen.gamescreen.util.ResourceManager;
@@ -47,6 +50,8 @@ public class GameScreen extends ScreenAdapter {
         viewport = new FitViewport(800,600);
         stage = new GameStage(viewport);
         stage.setViewport(viewport);
+        viewport.apply();
+
         createServices();
         controller = new GameController(stage, settingsService,highscoreService,vocabularyService);
 
@@ -54,7 +59,7 @@ public class GameScreen extends ScreenAdapter {
         inputMultiplexer = new InputMultiplexer();
         createButtonClickListener();
         createInputListener();
-        viewport.apply();
+
     }
 
     /**

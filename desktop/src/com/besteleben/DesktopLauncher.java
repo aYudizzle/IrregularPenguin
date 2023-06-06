@@ -1,8 +1,9 @@
 package com.besteleben;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.besteleben.irregularpenguin.GameStart;
 
 /**
@@ -20,7 +21,7 @@ public class DesktopLauncher {
 //		settings.duplicatePadding = true;
 //		settings.filterMin =  Texture.TextureFilter.Nearest;
 //		settings.filterMag = Texture.TextureFilter.Nearest;
-//		TexturePacker.process(settings, "assets/character/questioner/", "assets/","questioner");
+//		TexturePacker.process(settings, "assets/newghosts/", "assets/newghostsatlas","questioner");
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(30);

@@ -23,7 +23,6 @@
     default: {
       font: PressStart2P-Regular-12
       fontColor: RGBA_0_0_0_255
-      background: speechbubble
     }
     highscore-label-style: {
       font: PressStart2P-Regular

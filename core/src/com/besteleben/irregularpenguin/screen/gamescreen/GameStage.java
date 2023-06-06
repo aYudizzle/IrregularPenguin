@@ -43,7 +43,7 @@ public class GameStage extends Stage {
      */
     private final List<Actor> gameActors;
     /**
-     * displays the player character
+     * displays the player character as penguin
      */
     private Penguin penguin;
     /**
@@ -51,7 +51,7 @@ public class GameStage extends Stage {
      */
     private QuestionerGhost questionerGhost;
     /**
-     * Button to send the answer
+     * Button to send the answer and check whether its right or wrong
      */
     private ImageButton answerButton;
     /**
@@ -83,7 +83,7 @@ public class GameStage extends Stage {
      */
     private Label highscoreDisplay;
     /**
-     * table to adjust the image button for restarting the game and highscore to the top right corner
+     * table to adjust the image button for restarting the game, open up settings dialog and the highscore to the top right corner
      */
     private Table tableUpperRightCorner;
     /**
@@ -110,12 +110,12 @@ public class GameStage extends Stage {
     }
 
     /**
-     * visual settings for the User Interface on the top right corner of the screen
+     * visual settings for the User Interface
      */
     private void userInterfaceSettings() {
         answerButton.setWidth(150);
         answerButton.setX(Gdx.graphics.getWidth() / 2f - answerButton.getWidth() / 2f);
-        answerButton.setY(answerButton.getY() + 15f);
+        answerButton.setY(answerButton.getY() + 30f);
         answerButton.setVisible(false);
 
         highscoreDisplay.setSize(200, 200);
@@ -125,7 +125,6 @@ public class GameStage extends Stage {
         tableUpperRightCorner.setFillParent(true);
         tableUpperRightCorner.top().right();
         tableUpperRightCorner.defaults().spaceTop(5f).spaceBottom(5f);
-
         float buttonImageScaling = 0.6f;
         tableUpperRightCorner.add(settingsButton)
                 .padRight(5)
@@ -157,8 +156,6 @@ public class GameStage extends Stage {
         addActor(questionerGhost);
         addActor(highscoreDisplay);
         addActor(tableUpperRightCorner);
-
-
     }
 
     /**
@@ -257,7 +254,8 @@ public class GameStage extends Stage {
 
     /**
      * get called to reset the stage actors to default
-     * the reset get delayed by few seconds
+     * the reset get delayed by few milliseconds
+     * with 15fps -> 1.2 seconds, 30fps down to 0.3 seconds
      */
     public void reset() {
         Timer.schedule(new Timer.Task() {
@@ -268,7 +266,7 @@ public class GameStage extends Stage {
                 answerTextField.reset();
 
             }
-        }, 0.5f);
+        }, 0.3f);
     }
 
     /**
@@ -277,6 +275,7 @@ public class GameStage extends Stage {
      */
     public void showHighscore(List<HighscoreEntry> highscoreList) {
         Dialog highscoreDialog = new Dialog("",resourceManager.getSkin());
+        highscoreDialog.setModal(true);
         highscoreDialog.setBackground(new TextureRegionDrawable(new Texture("dialog/dialogbg.png")));
         Table highscoreTable = new Table();
         Label nameLabel = new Label("Name",resourceManager.getSkin(),"dialog-label-style");
@@ -284,7 +283,6 @@ public class GameStage extends Stage {
         highscoreTable.add(nameLabel).padTop(30f).padRight(15f);
         highscoreTable.add(scoreLabel).padTop(30f);
         highscoreTable.row();
-
         for(HighscoreEntry highscoreEntry : highscoreList) {
             Label name = new Label(highscoreEntry.getPlayerName(), resourceManager.getSkin(),"dialoghs-label-style");
             Label score = new Label(String.valueOf(highscoreEntry.getPlayerScore()),resourceManager.getSkin(),"dialoghs-label-style");
@@ -303,7 +301,6 @@ public class GameStage extends Stage {
     public void prepareNewGame(QuestionerData questionerData, int life, int highscore) {
         penguin.reset();
         penguin.setDefeated(false);
-
         answerTextField.resetForNewGame();
         lifeBar.setFilledHearts(life);
         questionerGhost.setActualTexture(questionerData.getColor());

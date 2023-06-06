@@ -1,13 +1,14 @@
 package com.besteleben.irregularpenguin.entities.character.questioner;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
@@ -31,7 +32,10 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     private QuestionerGhostColor actualTexture;
     /** speechbubble to display the question */
     private final Label questionLabel;
-
+    /**
+     * a table for the lable to be able to adjust the layout of the speechbubble
+     */
+    private Table speechBubbleTable;
 
     /** constructor with base settings for the questioner ghost */
     public QuestionerGhost(float frameDuration, float defaultX, float defaultY, Skin skin) {
@@ -40,6 +44,8 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         this.defaultX = defaultX + 150;
         this.frameDuration = frameDuration;
         this.questionLabel = new Label("", skin);
+
+
         initializeLabel();
         currentRegion = new TextureRegion();
         setX(this.defaultX);
@@ -48,11 +54,21 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     private void initializeLabel() {
         questionLabel.setPosition(defaultX - 250, defaultY + 50);
         questionLabel.setAlignment(Align.top);
-        questionLabel.setSize(200, 110);
+        Texture textureRegion = new Texture("stage/speechbubble.png");
+        speechBubbleTable = new Table();
+
+        // ninepatch for the texture of the bubble so it can get set as background of the table
+        NinePatch speechBubblePatch = new NinePatch(textureRegion);
+        speechBubbleTable.setBackground(new NinePatchDrawable(speechBubblePatch));
+        speechBubbleTable.add(questionLabel).pad(10).grow().top().left();
+        speechBubbleTable.setSize(200, 100);
+        speechBubbleTable.setPosition(defaultX - 275, defaultY + 75);
+
 
         questionLabel.setScale(0.75f);
         questionLabel.setVisible(false);
         questionLabel.setWrap(true);
+//        questionLabel.set
     }
 
     /**
@@ -107,7 +123,8 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
      * the batch. If {@link Batch#end()} is called to draw without the batch then {@link Batch#begin()} must be called before the
      * method returns.
      * <p>
-     * The default implementation does nothing.
+     *
+     * draws the ghost and if questionLabel.isVisible() = true the table with the speechbbubble is drawn too.
      *
      * @param batch
      * @param parentAlpha The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
@@ -119,21 +136,20 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         if (currentRegion != null) {
             batch.draw(currentRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
             if (questionLabel.isVisible()) {
-                questionLabel.draw(batch, parentAlpha);
+                speechBubbleTable.draw(batch, parentAlpha);
             }
         }
     }
-
     /**
      * for displaying the Question and setting up the Data for the label etc.
      */
     @Override
     public void settingUpQuestion(String verb) {
-        if (actualTexture == QuestionerGhostColor.RED) {
-            String labelText = String.format("\nWhat is the infinitive of\n %s", verb);
+        if (actualTexture.getRequestedForm().equals("german")) {
+            String labelText = String.format("What is the infinitive of \"%s\" in %s", verb,actualTexture.getRequestedForm());
             questionLabel.setText(labelText);
         } else {
-            String labelText = String.format("\nWhat is the meaning of\n \"%s\"", verb);
+            String labelText = String.format("What is the %s of \"%s\"",actualTexture.getRequestedForm(), verb);
             questionLabel.setText(labelText);
         }
     }
@@ -143,7 +159,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
      */
     @Override
     public void processRightAnswer() {
-        questionLabel.setText("\nNice, well done!");
+        questionLabel.setText("Nice, well done!");
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -151,12 +167,11 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
                 questionLabel.setVisible(false);
             }
         }, 0.3f);
-
     }
 
     /** gets called by stage when the game is over cause the lifebar reached 0 */
     public void gameEnd() {
-        String labelText = "\nGame Over\nbetter luck next time";
+        String labelText = "Game Over\nbetter luck next time";
         questionLabel.setText(labelText);
     }
     /**resets the questioner to his default position */
@@ -184,4 +199,5 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     public Label getQuestionLabel() {
         return questionLabel;
     }
+
 }

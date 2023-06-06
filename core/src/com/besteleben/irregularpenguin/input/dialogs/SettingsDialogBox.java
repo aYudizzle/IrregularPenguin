@@ -1,6 +1,5 @@
 package com.besteleben.irregularpenguin.input.dialogs;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -15,10 +14,11 @@ public class SettingsDialogBox extends Dialog {
     /**
      * reference to the playerNameTextfield to enter the player name
      */
-    private TextField playerNameField;
+    private final TextField playerNameField;
     /**
      * Lable of the dialog
      */
+    private final Label nameLabel;
     /**
      * keeps the entered playername
      */
@@ -26,7 +26,7 @@ public class SettingsDialogBox extends Dialog {
     /**
      * Save Button
      */
-    private TextButton saveButton;
+    private final TextButton saveButton;
 
     public SettingsDialogBox(String title, Skin skin) {
         super(title, skin);
@@ -35,19 +35,16 @@ public class SettingsDialogBox extends Dialog {
         setBackground(new TextureRegionDrawable(new Texture("dialog/dialogbg.png")));
 
 
-        Label nameLabel = new Label("Your player name:", skin,"dialog-label-style");
+        nameLabel = new Label("Your player name:", skin,"dialog-label-style");
         playerNameField = new TextField("", skin,"dialogTextfield");
 
 
         getContentTable().padTop(10f).add(nameLabel).row();
         getContentTable().add(playerNameField).width(200f).padLeft(20f);
 
-
         saveButton = new TextButton("Save",skin);
         getButtonTable().add(saveButton);
-        getButtonTable().padRight(10f).padBottom(10f).align(Align.bottomRight);
-        button("",false);
-        button("",true);
+        getButtonTable().padRight(20f).padBottom(10f).align(Align.bottomRight);
 
         setSize(298, 98);
     }
@@ -64,15 +61,6 @@ public class SettingsDialogBox extends Dialog {
         } else {
             playerName = null;
         }
-    }
-
-    /**
-     * Gets playerName.
-     *
-     * @return value of playerName
-     */
-    public String getPlayerName() {
-        return playerName;
     }
 
     /**

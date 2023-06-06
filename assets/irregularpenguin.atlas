@@ -6,22 +6,24 @@ filter: Linear, Linear
 repeat: none
 Border
   rotate: false
-  xy: 1, 629
+  xy: 1, 602
   size: 600, 233
   orig: 600, 233
   offset: 0, 0
   index: -1
 Border_grau
   rotate: false
-  xy: 1, 394
+  xy: 1, 367
   size: 600, 233
   orig: 600, 233
   offset: 0, 0
   index: -1
 speechbubble
   rotate: false
-  xy: 603, 682
-  size: 261, 180
-  orig: 261, 180
+  xy: 603, 683
+  size: 234, 152
+  split: 19, 18, 18, 71
+  pad: 117, 108, 18, 71
+  orig: 234, 152
   offset: 0, 0
   index: -1
