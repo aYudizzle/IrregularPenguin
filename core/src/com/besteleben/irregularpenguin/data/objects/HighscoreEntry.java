@@ -64,6 +64,10 @@ public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> 
         this.playerScore = playerScore;
     }
 
+    /**
+     * toString builds a string for debugging purposes
+     * @return HighscoreEntry Object as a String
+     */
 
     @Override
     public String toString() {

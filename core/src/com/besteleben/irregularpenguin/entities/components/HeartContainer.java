@@ -4,14 +4,34 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * representing the lives of the player as heart container
+ * if the heart is alive its filled red otherwise show a alternativeTexture
+ * to show that its already depleted.
+ */
 public class HeartContainer extends Actor {
+    /**
+     * heartTexture is the texture when the heart is 'filled'/alive
+     */
     private TextureRegion heartTexture;
-    private TextureRegion alternativeTexture;
+    /**
+     * lostHeartTexture represents the texture which should be shown when the
+     * heart is not available/alive anymore
+     */
+    private TextureRegion lostHeartTexture;
+    /**
+     * if the heart is still alive/depleted
+     */
     private boolean alive;
 
-    public HeartContainer(TextureRegion heartTexture, TextureRegion alternativeTexture) {
+    /**
+     * Constructor to setup a single heart container with a texture when its depleted or still alive
+     * @param heartTexture filled heartTexture
+     * @param lostHeartTexture depleted heartTexture
+     */
+    public HeartContainer(TextureRegion heartTexture, TextureRegion lostHeartTexture) {
         this.heartTexture = heartTexture;
-        this.alternativeTexture = alternativeTexture;
+        this.lostHeartTexture = lostHeartTexture;
         setSize(heartTexture.getRegionWidth(), heartTexture.getRegionHeight());
         setScale(2);
     }
@@ -33,7 +53,7 @@ public class HeartContainer extends Actor {
      * <p>
      * The default implementation does nothing.
      *
-     * @param batch
+     * @param batch batch to draw the textures
      * @param parentAlpha The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
      *                    children.
      */
@@ -42,7 +62,7 @@ public class HeartContainer extends Actor {
         if(alive){
             batch.draw(heartTexture,getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         } else {
-            batch.draw(alternativeTexture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+            batch.draw(lostHeartTexture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         }
     }
 }

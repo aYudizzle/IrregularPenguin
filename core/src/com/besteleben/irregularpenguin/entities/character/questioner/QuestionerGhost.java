@@ -18,7 +18,7 @@ import com.besteleben.irregularpenguin.entities.character.IngameCharacter;
  * Questioner extends IngameCharacter but needs few more options
  * implements the Questioner Interface to add other functionalities
  *
- * */
+ */
 public class QuestionerGhost extends IngameCharacter implements Questioner {
     /** keeps the .atlas file for the different textures */
     private final TextureAtlas textureAtlas = new TextureAtlas("questioner.atlas");
@@ -58,10 +58,10 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
 
 
         initializeLabel();
-        currentRegion = new TextureRegion();
+        currentTextureRegion = new TextureRegion();
         setX(this.defaultX);
     }
-    /** initialize the base settings of the speechbubble/label so its on the right coordinates */
+    /** initialize the base settings of the speechbubble/label so it gets displayed on the right coordinates on the screen */
     private void initializeLabel() {
         questionLabel.setPosition(defaultX - 250, defaultY + 50);
         questionLabel.setAlignment(Align.top);
@@ -114,15 +114,15 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         if (appearingAnimation.isAnimationFinished(elapsedTime)) {
             if (!questionAnswered) {
                 currentFrame = idleAnimation.getKeyFrame(elapsedTime);
-                currentRegion.setRegion(currentFrame);
+                currentTextureRegion.setRegion(currentFrame);
             } else {
                 elapsedTimeDisappearing += delta;
                 currentFrame = blinkAnimation.getKeyFrame(elapsedTimeDisappearing);
-                currentRegion.setRegion(currentFrame);
+                currentTextureRegion.setRegion(currentFrame);
             }
         } else {
             currentFrame = appearingAnimation.getKeyFrame(elapsedTime);
-            currentRegion.setRegion(currentFrame);
+            currentTextureRegion.setRegion(currentFrame);
         }
     }
 
@@ -143,8 +143,8 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (currentRegion != null) {
-            batch.draw(currentRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        if (currentTextureRegion != null) {
+            batch.draw(currentTextureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
             if (questionLabel.isVisible()) {
                 speechBubbleTable.draw(batch, parentAlpha);
             }

@@ -3,7 +3,7 @@ package com.besteleben.irregularpenguin.data.repository;
 import com.besteleben.irregularpenguin.data.objects.Vocabulary;
 
 /**
- * Dao Interface, welches dafuer dient ggf. mehrere Datenquellen zu implementieren.
+ * Repository Interface for further data source implementations
  */
 public interface VocabularyRepository {
     /**

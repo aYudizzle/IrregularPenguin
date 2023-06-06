@@ -16,6 +16,7 @@ public interface HighscoreRepository {
 
     /**
      * save the highscore list
+     * @param highscoreList the list of highsccore entries to save
      */
     void saveHighscore(List<HighscoreEntry> highscoreList);
 }

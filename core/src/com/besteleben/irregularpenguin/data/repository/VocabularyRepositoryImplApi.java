@@ -15,7 +15,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-
+/**
+ * Implementation of the VocabulariRepository
+ * connecting with an API and handling the JSON respond
+ */
 public class VocabularyRepositoryImplApi implements VocabularyRepository {
     /** http client for getting data from api */
     private HttpClient httpClient;
@@ -44,7 +47,12 @@ public class VocabularyRepositoryImplApi implements VocabularyRepository {
         return null;
     }
 
-    public String getDataFromApi(String apiUrl) {
+    /**
+     * this method contacts the api and tries to get Data from this request
+     * @param apiUrl the url of the api
+     * @return a JSON String
+     */
+    private String getDataFromApi(String apiUrl) {
         String responseData = null;
         try{
             HttpGet httpGet = new HttpGet(apiUrl);

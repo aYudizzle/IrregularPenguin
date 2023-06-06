@@ -14,12 +14,19 @@ public class SettingsService {
      */
     private ConfigurationData config;
 
+    /**
+     * creates the SettingsService with a given datasource
+     * @param dataSource the datasource for the settings
+     */
     public  SettingsService(SettingsRepository dataSource){
         this.dataSource = dataSource;
         config = new ConfigurationData();
         config = dataSource.loadConfig();
     }
 
+    /**
+     * saves the config in the datasource
+     */
     public void saveConfig(){
         dataSource.saveConfig(config);
     }

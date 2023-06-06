@@ -13,8 +13,9 @@ import com.besteleben.irregularpenguin.service.VocabularyService;
 import java.util.List;
 
 /**
- * Class for controlling User Input and business logic at all.
- * handles input coming from the input processor
+ * Mediator between frontend and services
+ * connects with the different service and communicates with the
+ * stage.
  */
 public class GameController {
     /**

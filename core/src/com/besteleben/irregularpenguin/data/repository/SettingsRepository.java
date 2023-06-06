@@ -7,12 +7,14 @@ import com.besteleben.irregularpenguin.data.objects.ConfigurationData;
  */
 public interface SettingsRepository {
     /**
-     * load config .properties
+     * loads the configugration
+     * @return returns a ConfigurationData Object with the players configurations
      */
     ConfigurationData loadConfig();
 
     /**
-     * save config .properties
+     * saves the configuration
+     * @param config the configurationData to save
      */
     void saveConfig(ConfigurationData config);
 }

@@ -1,5 +1,9 @@
 package com.besteleben.irregularpenguin.entities.character.questioner;
 
+/**
+ * QuestionGhostColor contains all the possible colors of the ghost Textures and their name
+ * in the corresponding atlas. Also it contains a requestedForm parameter which is the form the player should get asked for
+ */
 public enum QuestionerGhostColor {
     /** image atlas entries for the blue ghost */
     BLUE("blue_idle","blue_blink","simple past"),
@@ -34,6 +38,12 @@ public enum QuestionerGhostColor {
     /** requested form of the wanted answer */
     private final String requestedForm;
 
+    /**
+     * Constructor for the QuestionGhostColor
+     * @param idleRegionName idle region name in the image atlas
+     * @param blinkRegionName blink region mame in the image atlas
+     * @param requestedForm the player should get asked for
+     */
     QuestionerGhostColor(String idleRegionName, String blinkRegionName, String requestedForm){
         this.idleRegionName = idleRegionName;
         this.blinkRegionName = blinkRegionName;

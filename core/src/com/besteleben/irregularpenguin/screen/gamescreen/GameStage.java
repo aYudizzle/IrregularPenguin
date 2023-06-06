@@ -95,7 +95,8 @@ public class GameStage extends Stage {
      */
     private SettingsDialogBox settingsDialogBox;
     /**
-     * constructor gets called when the stage get created
+     * constructor gets called when the stage get created and applies the viewport
+     * @param viewport the given viewport by the Screen
      */
     public GameStage(FitViewport viewport) {
         super(viewport);
@@ -175,7 +176,7 @@ public class GameStage extends Stage {
     }
 
     /**
-     * to add actors to the actor list
+     * to add actors to the actor list and the stage
      */
     @Override
     public void addActor(Actor actor) {
@@ -183,6 +184,10 @@ public class GameStage extends Stage {
         super.addActor(actor);
     }
 
+    /**
+     * draws the stage and all actors with the delta time in seconds
+     * @param delta Time in seconds since the last frame.
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -191,7 +196,7 @@ public class GameStage extends Stage {
             actor.act(delta);
         }
         //front end reaction at certain things.
-        if (penguin.hasReachedCenter() && !penguin.isDefeated()) {
+        if (penguin.hasReachedCenter() && !penguin.isPlayerDefeated()) {
             showInteractionComponents();
         }
 
@@ -202,16 +207,16 @@ public class GameStage extends Stage {
      */
     private void showInteractionComponents() {
         answerTextField.setDisabled(false);
-        answerTextField.setFocusTraversal(true);
+        answerTextField.setFocusTraversal(false);
         answerButton.setVisible(true);
         questionerGhost.getQuestionLabel().setVisible(true);
     }
 
     /**
      * preparing the first round
-     * @param questionerData
-     * @param life
-     * @param highscore
+     * @param questionerData data for the question
+     * @param life life to be displayed
+     * @param highscore score value
      */
     public void prepareRound(QuestionerData questionerData, int life, int highscore) {
         questionerGhost.setActualTexture(questionerData.getColor());
@@ -228,12 +233,12 @@ public class GameStage extends Stage {
      */
     public void reactionToAnswer(boolean result, int life) {
         if (result) {
-            penguin.setAnswered(true);
+            penguin.setQuestionAnswered(true);
             questionerGhost.processRightAnswer();
             answerButton.setVisible(false);
         } else {
             lifeBar.setFilledHearts(life);
-            if (lifeBar.getActutalLife() == 0) {
+            if (lifeBar.getActualHearts() == 0) {
                 gameOver();
             }
         }
@@ -244,7 +249,7 @@ public class GameStage extends Stage {
      * entering the players name
      */
     private void gameOver() {
-        penguin.setDefeated(true);
+        penguin.setPlayerDefeated(true);
         questionerGhost.gameEnd();
         answerTextField.setDisabled(true);
         answerTextField.setFocusTraversal(false);
@@ -303,7 +308,7 @@ public class GameStage extends Stage {
      */
     public void prepareNewGame(QuestionerData questionerData, int life, int highscore) {
         penguin.reset();
-        penguin.setDefeated(false);
+        penguin.setPlayerDefeated(false);
         answerTextField.resetForNewGame();
         lifeBar.setFilledHearts(life);
         questionerGhost.setActualTexture(questionerData.getColor());

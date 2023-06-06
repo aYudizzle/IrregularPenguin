@@ -9,32 +9,62 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.besteleben.irregularpenguin.entities.character.IngameCharacter;
 
+/**
+ * Penguin represents the player chracter which extends the IngameCharacter class
+ */
 public class Penguin extends IngameCharacter {
+    /**
+     * TextureRegion for the running animation
+     */
     private Animation<TextureRegion> runAnimation;
+    /**
+     * Texture Region for the hurtAnimation which get Displayed when the game is over
+     */
     private Animation<TextureRegion> hurtAnimation;
-    private boolean answered = false;
-    private boolean defeated = false;
+    /**
+     * if the question got answered
+     */
+    private boolean questionAnswered = false;
+    /**
+     * if the player is defeated
+     */
+    private boolean playerDefeated = false;
 
+    /**
+     * Penguin constructor with the duration for everysingle frame to cycle through his animations
+     * @param frameDuration how long should a frame be displayed
+     * @param defaultX  base X-Coordinate
+     * @param defaultY base Y-Coordinate
+     */
     public Penguin(float frameDuration, float defaultX, float defaultY){
         this.defaultX = defaultX;
         this.defaultY = defaultY;
+        currentTextureRegion = new TextureRegion();
+        setY(this.defaultY);
+        setX(this.defaultX);
+        setScale(2);
+
+        buildAnimationTextures(frameDuration);
+    }
+
+    /**
+     * build the animation for idlAnimation, runAnimation and hurtAnimation
+     * just created a helper method to keep the constructor cleaner.
+     * @param frameDuration duration for every single frame
+     */
+    private void buildAnimationTextures(float frameDuration) {
         TextureAtlas textureAtlas = new TextureAtlas("penguin.atlas");
         String runRegionName = "walk"; // tag for run animation in penguin.atlas
-        String idleRegionName = "Idle"; // Idle for idle animation in penguin.atlas
+        String idleRegionName = "Idle"; // tag for idle animation in penguin.atlas
         Array<TextureAtlas.AtlasRegion> runFrames = textureAtlas.findRegions(runRegionName);
         Array<TextureAtlas.AtlasRegion> idleFrames = textureAtlas.findRegions(idleRegionName);
         Array<TextureAtlas.AtlasRegion> hurtFrames = textureAtlas.findRegions("hurt");
 
-        this.runAnimation = new Animation<>(frameDuration,runFrames, Animation.PlayMode.LOOP);
+        runAnimation = new Animation<>(frameDuration,runFrames, Animation.PlayMode.LOOP);
         idleAnimation = new Animation<>(frameDuration,idleFrames, Animation.PlayMode.LOOP);
-        this.hurtAnimation = new Animation<>(frameDuration,hurtFrames,Animation.PlayMode.LOOP);
+        hurtAnimation = new Animation<>(frameDuration,hurtFrames,Animation.PlayMode.LOOP);
+
         setSize(runFrames.first().getRegionWidth(),runFrames.first().getRegionHeight());
-
-        setY(this.defaultY);
-        setX(this.defaultX);
-
-        currentRegion = new TextureRegion();
-        setScale(2);
     }
 
     /**
@@ -51,87 +81,100 @@ public class Penguin extends IngameCharacter {
         updateAppearance();
     }
 
+    /**
+     * draws the penguin and his texture to the batch
+     * @param batch the batch to draw the texture
+     * @param parentAlpha The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
+     *           children.
+     */
     public void draw(Batch batch, float parentAlpha) {
-        if (currentRegion != null) {
-            batch.draw(currentRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        if (currentTextureRegion != null) {
+            batch.draw(currentTextureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         }
     }
 
+    /**
+     * Updates the appearance of the penguin on certain states
+     */
     public void updateAppearance() {
-
-        if (!answered) {
+        if (!questionAnswered) {
             if (!hasReachedCenter()) {
-                running();
+                useRunningAnimation();
             } else {
-                if (defeated) {
-                    hurt();
+                if (playerDefeated) {
+                    useHurtAnimation();
                 } else {
-                    idle();
+                    useIdleAnimation();
                 }
             }
         } else {
-//            hurt();
-            running();
+            useRunningAnimation();
             }
         }
 
-
-    private void hurt() {
+    /**
+     * change the currentTexture to the hurtAnimation texture
+     */
+    private void useHurtAnimation() {
         TextureRegion currentFrame;
         currentFrame = hurtAnimation.getKeyFrame(elapsedTime);
         setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
-        currentRegion.setRegion(currentFrame);
+        currentTextureRegion.setRegion(currentFrame);
     }
 
-    public void idle(){
+    /**
+     * change the currentTexture to the idle animation
+     */
+    public void useIdleAnimation(){
         TextureRegion currentFrame;
         currentFrame = idleAnimation.getKeyFrame(elapsedTime);
         setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
-        currentRegion.setRegion(currentFrame);
+        currentTextureRegion.setRegion(currentFrame);
     }
-    public void running(){
+
+    /**
+     * change the currentTexture to the running Animation.
+     */
+    public void useRunningAnimation(){
         TextureRegion currentFrame;
         currentFrame = runAnimation.getKeyFrame(elapsedTime);
         setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
-        currentRegion.setRegion(currentFrame);
+        currentTextureRegion.setRegion(currentFrame);
         moveBy(4,0);
     }
 
+    /**
+     * checks if the penguin has reached the center of the screen with a little offset
+     * @return true or false depending on the position of the character
+     */
     public boolean hasReachedCenter() {
         float centerX = getX() + getWidth() / 2;
-        float stageCenterX = getStage().getWidth() / 2 - (4.9f*currentRegion.getRegionWidth()); // für eine gewisse verschiebung nach links
+        float stageCenterX = getStage().getWidth() / 2 - (4.9f* currentTextureRegion.getRegionWidth()); // für eine gewisse verschiebung nach links
         return centerX == stageCenterX;
     }
-
-//    public boolean hasReachedRight() {
-//        float penguinRightX = getX() + getWidth(); // Rechte Grenze des Pinguins
-//        float stageRightX = getStage().getWidth(); // Rechte Grenze der Stage
-//        return penguinRightX >= stageRightX;
-//    }
-
-
+    /**
+     * resets the penguin to the default parameters
+     */
     public void reset() {
         setX(defaultX);
-        answered = false;
-
+        questionAnswered = false;
     }
-
     /**
      * Gets answered.
      *
      * @return value of answered
      */
-    public boolean isAnswered() {
-        return answered;
+    public boolean isQuestionAnswered() {
+        return questionAnswered;
     }
 
     /**
      * Sets answered.
      *
-     * @param answered value of answered
+     * @param questionAnswered value of answered
      */
-    public void setAnswered(boolean answered) {
-        this.answered = answered;
+    public void setQuestionAnswered(boolean questionAnswered) {
+        this.questionAnswered = questionAnswered;
     }
 
     /**
@@ -139,17 +182,17 @@ public class Penguin extends IngameCharacter {
      *
      * @return value of defeated
      */
-    public boolean isDefeated() {
-        return defeated;
+    public boolean isPlayerDefeated() {
+        return playerDefeated;
     }
 
     /**
      * Sets defeated.
      *
-     * @param defeated value of defeated
+     * @param playerDefeated value of defeated
      */
-    public void setDefeated(boolean defeated) {
-        this.defeated = defeated;
+    public void setPlayerDefeated(boolean playerDefeated) {
+        this.playerDefeated = playerDefeated;
     }
 
 }

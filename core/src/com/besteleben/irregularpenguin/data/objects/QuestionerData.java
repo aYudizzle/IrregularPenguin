@@ -7,7 +7,12 @@ public class QuestionerData {
     private QuestionerGhostColor color;
     /** the verb which should be asked for */
     private String verb;
-    /** constructor for creating the transfer object */
+    /**
+     * constructor for creating the QuestionData object
+     *
+     * @param color contains the QuestionGhostColor which should be used
+     * @param verb the verb which should be asked for
+     * */
     public QuestionerData(QuestionerGhostColor color, String verb){
         this.color = color;
         this.verb = verb;

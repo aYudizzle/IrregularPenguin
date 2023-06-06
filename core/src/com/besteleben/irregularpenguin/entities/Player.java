@@ -13,7 +13,10 @@ public class Player {
      */
     private String playerName;
 
-    /** Constructor */
+    /**
+     *  Constructor of the player object
+     * @param playerName the players name
+     */
     public Player(String playerName){
         this.playerName = playerName;
     }
@@ -24,6 +27,9 @@ public class Player {
         }
     }
 
+    /**
+     * resets the player state to starting values
+     */
     public void reset(){
         life = 3;
         highscore = 0;

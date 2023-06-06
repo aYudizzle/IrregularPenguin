@@ -9,7 +9,7 @@ import com.besteleben.irregularpenguin.screen.gamescreen.GameScreen;
  * Es soll auch nur ein game Fenster geben, daher kommt hier das Singleton Pattern zu tragen.
  */
 
-public class GameStart extends Game {
+public class IrregularPenguinGame extends Game {
 	/** Constructor der den ersten Screen laedt. */
 	@Override
 	public void create () {

@@ -20,6 +20,9 @@ public class ResourceManager {
     /** beinhaltet alle Angaben für die grafischen Komponenten (Textfield etc.) */
     private Skin skin;
 
+    /**
+     * Creates a Resource Manager and a Skin for the application.
+     */
     private ResourceManager(){
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P-Regular.ttf"));
         // Erstelle den Skin
@@ -35,7 +38,10 @@ public class ResourceManager {
         skin.addRegions(new TextureAtlas("irregularpenguin.atlas"));
         skin.load(Gdx.files.internal("irregularpenguin.json"));
     }
-    /** Methode um die instanz zu erhalten oder den ResourceManager zu erstellen*/
+    /**
+     * Methode um die instanz zu erhalten oder den ResourceManager zu erstellen
+     * @return returns the reference to the instance of the resourceManager
+     */
     public static ResourceManager getInstance() {
         if(instance == null){
             instance = new ResourceManager();
@@ -43,6 +49,10 @@ public class ResourceManager {
         return instance;
     }
 
+    /**
+     * free up the resources when the app gets closed
+     * Called when a screen should release all resources
+     */
     public void dispose(){
         skin.dispose();
         fontGenerator.dispose();
@@ -50,7 +60,6 @@ public class ResourceManager {
 
     /**
      * Gets skin.
-     *
      * @return value of skin
      */
     public Skin getSkin() {

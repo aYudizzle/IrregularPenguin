@@ -31,7 +31,10 @@ public class VocabularyService {
         this.dataSource = dataSource;
     }
 
-    /** generate Data for the question randomly */
+    /**
+     * generate Data for the question randomly
+     * @return a QuestionerData Object containing the QuestionerGhostColor and the verb to ask for
+     */
     public QuestionerData generateNextQuestion() {
         QuestionerGhostColor[] questionerTextures = QuestionerGhostColor.values();
         int randomIndex = MathUtils.random(questionerTextures.length - 1);

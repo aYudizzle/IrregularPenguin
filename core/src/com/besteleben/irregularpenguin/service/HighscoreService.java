@@ -24,6 +24,7 @@ public class HighscoreService {
     private final int maxEntries = 10;
     /**
      * constructor to create the highscore Service
+     * @param dataSource the given datasource for the service
      */
     public HighscoreService(HighscoreRepository dataSource) {
         this.dataSource = dataSource;
@@ -32,6 +33,7 @@ public class HighscoreService {
     }
     /**
      * method to add a Highscoreentry
+     * @param entry the highscore entry to add to the list
      */
     public void addHighscoreEntry(HighscoreEntry entry) {
         highscoreList.add(entry);
