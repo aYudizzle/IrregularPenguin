@@ -36,6 +36,14 @@
       font: PressStart2P-Regular-12
       fontColor: WHITE
     }
+    login-label-style: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+    }
+    registration-label-style: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+    }
   }
   TextFieldStyle: {
     default: {
@@ -49,6 +57,22 @@
       messageFontColor: RGBA_0_0_0_255
     }
     dialogTextfield: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+      focusedFontColor: RGBA_0_224_255_255
+      disabledFontColor: WHITE
+      messageFont: PressStart2P-Regular
+      messageFontColor: RGBA_0_224_255_255
+    }
+    rtField: {
+      font: PressStart2P-Regular
+      fontColor: WHITE
+      focusedFontColor: RGBA_0_224_255_255
+      disabledFontColor: WHITE
+      messageFont: PressStart2P-Regular
+      messageFontColor: RGBA_0_224_255_255
+    }
+    loginField: {
       font: PressStart2P-Regular
       fontColor: WHITE
       focusedFontColor: RGBA_0_224_255_255

@@ -6,9 +6,10 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         google()
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
-    }
+
+}
+plugins {
+    id 'java-library'
 }
 
 allprojects {
@@ -38,7 +39,6 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "java-library"
-
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
@@ -46,22 +46,20 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-        //Database API
-        api "org.mariadb.jdbc:mariadb-java-client:3.0.10"
-
-        
     }
 }
 
 project(":core") {
     apply plugin: "java-library"
 
-
     dependencies {
+        //Core libraries
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+
         api 'com.google.code.gson:gson:2.9.0'
         api 'org.apache.httpcomponents:httpclient:4.5.13'
+        api "org.mariadb.jdbc:mariadb-java-client:3.0.10"
     }
 }
