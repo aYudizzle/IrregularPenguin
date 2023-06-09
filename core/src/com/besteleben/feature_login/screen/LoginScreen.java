@@ -39,13 +39,13 @@ public class LoginScreen extends ScreenAdapter {
         this.screenManager = screenManager;
         stage = new LoginStage(screenManager);
         controller = new LoginController(new LoginService(new LoginRepositoryImpl()));
-        initButtonHandler();
+        initializeButtonHandler();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    private void initButtonHandler() {
+    private void initializeButtonHandler() {
         stage.getLoginButton().addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -53,6 +53,7 @@ public class LoginScreen extends ScreenAdapter {
                 String password = stage.getPasswordField().getText();
                 try {
                     controller.login(username,password);
+                    screenManager.setScreen("game");
                 } catch (UserNotFoundException exception) {
                     stage.showLoginErrorDialog("User not found!");
                 } catch (LoginCredentialsWrongException exception) {

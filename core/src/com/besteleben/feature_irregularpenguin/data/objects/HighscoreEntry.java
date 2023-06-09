@@ -9,6 +9,10 @@ import java.io.Serializable;
 public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> {
     private static final long serialVersionUID = -3012671457440248243L;
     /**
+     * id of the entry
+     */
+    private int id;
+    /**
      * playername to save the entry
      */
     private String playerName;
@@ -16,7 +20,7 @@ public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> 
     /**
      * the score of the player
      */
-    private Integer playerScore;
+    private int playerScore;
 
     /**
      * constructor for an highscore entry with the name of the player and score
@@ -65,6 +69,26 @@ public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> 
     }
 
     /**
+     * Gets id.
+     *
+     * @return value of id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id value of id
+     */
+    public void setId(int id) {
+        if(id == 0){
+            this.id = id;
+        }
+    }
+
+    /**
      * toString builds a string for debugging purposes
      * @return HighscoreEntry Object as a String
      */
@@ -108,6 +132,6 @@ public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> 
      */
     @Override
     public int compareTo(HighscoreEntry otherEntry) {
-        return playerScore.compareTo(otherEntry.playerScore);
+        return Integer.compare(playerScore, otherEntry.playerScore);
     }
 }

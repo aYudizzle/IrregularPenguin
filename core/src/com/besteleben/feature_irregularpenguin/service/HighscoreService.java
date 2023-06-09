@@ -17,7 +17,7 @@ public class HighscoreService {
     /**
      * list of scores representing the highscore list
      */
-    private final List<HighscoreEntry> highscoreList;
+    private List<HighscoreEntry> highscoreList;
     /**
      * max players wanted in list
      */
@@ -36,6 +36,7 @@ public class HighscoreService {
      * @param entry the highscore entry to add to the list
      */
     public void addHighscoreEntry(HighscoreEntry entry) {
+        highscoreList = dataSource.loadHighscore();
         highscoreList.add(entry);
         highscoreList.sort(Collections.reverseOrder());
         trimHighscore();
@@ -58,6 +59,7 @@ public class HighscoreService {
      * @return value of highscore
      */
     public List<HighscoreEntry> getHighscoreList() {
+        highscoreList = dataSource.loadHighscore();
         return highscoreList;
     }
 }

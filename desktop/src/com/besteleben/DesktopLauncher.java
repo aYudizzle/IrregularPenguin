@@ -21,6 +21,10 @@ import com.besteleben.core.IrregularPenguinGame;
  *
  * But beside of all the classes used from LibGDX, I also use GSON from google for json data and apache-client for a http request to receive data from
  * a web api
+ *
+ * test login:
+ * user: alfa
+ * password: alfa1
  */
 public class DesktopLauncher {
 	/**

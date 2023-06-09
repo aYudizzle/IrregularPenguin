@@ -15,10 +15,9 @@ public class Player {
 
     /**
      *  Constructor of the player object
-     * @param playerName the players name
      */
-    public Player(String playerName){
-        this.playerName = playerName;
+    public Player(){
+        this.playerName = "unknown";
     }
     /** removing the life if the player didnt get the right answer */
     public void decreaseLife(){

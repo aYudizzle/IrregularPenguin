@@ -82,5 +82,12 @@ public class Vocabulary {
         return past_participle;
     }
 
-    //todo String Methode + equals + getter and setter
+    /**
+     * Gets id.
+     *
+     * @return value of id
+     */
+    public int getId() {
+        return id;
+    }
 }

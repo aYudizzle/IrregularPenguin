@@ -7,8 +7,8 @@ import com.besteleben.feature_irregularpenguin.data.objects.QuestionerData;
 import com.besteleben.feature_irregularpenguin.entities.Player;
 import com.besteleben.feature_irregularpenguin.screen.gamescreen.GameStage;
 import com.besteleben.feature_irregularpenguin.service.HighscoreService;
-import com.besteleben.feature_irregularpenguin.service.SettingsService;
 import com.besteleben.feature_irregularpenguin.service.VocabularyService;
+import com.besteleben.feature_login.objects.User;
 
 import java.util.List;
 
@@ -35,10 +35,6 @@ public class GameController {
      */
     private final HighscoreService highscoreService;
     /**
-     * Service for the player configuration
-     */
-    private final SettingsService settingsService;
-    /**
      * Question Data which is needed to ask for the answer
      */
     public QuestionerData questionerData;
@@ -47,16 +43,15 @@ public class GameController {
     /**
      * constructing the mediator for communication between service and frontend
      * @param highscoreService highscore service for manage the highscore
-     * @param settingsService for managing game settings
      * @param stage frontend reference
      * @param vocabularyService for managing the vocabulary/question
      */
-    public GameController(GameStage stage, SettingsService settingsService, HighscoreService highscoreService, VocabularyService vocabularyService) {
+    public GameController(GameStage stage, HighscoreService highscoreService, VocabularyService vocabularyService) {
         this.stage = stage;
         this.vocabularyService = vocabularyService;
         this.highscoreService = highscoreService;
-        this.settingsService = settingsService;
-        player = new Player(this.settingsService.getConfig().getPlayerName());
+
+        player = new Player();
     }
     /**
      * get called when the user input needs to be validated by the service
@@ -67,6 +62,10 @@ public class GameController {
         boolean answerCorrect = vocabularyService.checkAnswer(userInput);
         if (!answerCorrect) {
             player.decreaseLife();
+            vocabularyService.saveWrongAnsweredVocabulary();
+            questionerData = vocabularyService.generateNextQuestion(answerCorrect);
+            stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
+
             if (player.getLife() == 0) {
                 gameOver();
             }
@@ -77,7 +76,7 @@ public class GameController {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    nextRound();
+                    nextRound(answerCorrect);
                 }
             }, 3f);
         }
@@ -94,33 +93,26 @@ public class GameController {
      * method gets call when the answer is correct and the
      * next round shall start.
      */
-    public void nextRound() {
-        questionerData = vocabularyService.generateNextQuestion();
+    public void nextRound(boolean answerCorrect) {
+        questionerData = vocabularyService.generateNextQuestion(answerCorrect);
         stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
         stage.reset();
     }
-    /**
-     * method get called when the player name in the settings is getting changed
-     * @param playerName the playerName to save
-     */
-    public void changePlayerName(String playerName){
-        player.setPlayerName(playerName);
-        settingsService.getConfig().setPlayerName(playerName);
-        settingsService.saveConfig();
-    }
+
     /**
      * this method starts the game initially
      */
     public void startGame() {
-        questionerData = vocabularyService.generateNextQuestion();
+        questionerData = vocabularyService.generateNextQuestion(false);
         stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
+        player.setPlayerName(User.getInstance().getUsername());
     }
 
     /**
      * method to start a new game start a new game
      */
     public void startNewGame(){
-        questionerData = vocabularyService.generateNextQuestion();
+        questionerData = vocabularyService.generateNextQuestion(false);
         player.reset();
         stage.prepareNewGame(questionerData, player.getLife(),player.getHighscore());
 
@@ -132,12 +124,5 @@ public class GameController {
     public void showHighscore(){
         List<HighscoreEntry> highscoreList = highscoreService.getHighscoreList();
         stage.showHighscore(highscoreList);
-    }
-    /**
-     * method to show settings
-     */
-    public void showSettings() {
-        String actualPlayername = player.getPlayerName();
-        stage.showSettingsDialog(actualPlayername);
     }
 }

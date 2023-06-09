@@ -10,13 +10,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.besteleben.core.ScreenManager;
 import com.besteleben.feature_irregularpenguin.controller.GameController;
 import com.besteleben.feature_irregularpenguin.data.repository.HighscoreRepositoryImpl;
-import com.besteleben.feature_irregularpenguin.data.repository.SettingsRepositoryImpl;
-import com.besteleben.feature_irregularpenguin.data.repository.VocabularyRepositoryImplApi;
+import com.besteleben.feature_irregularpenguin.data.repository.VocabularyRepositoryImpl;
 import com.besteleben.feature_irregularpenguin.input.KeyboardInputProcessor;
-import com.besteleben.feature_irregularpenguin.dialogs.SettingsDialogBox;
 import com.besteleben.feature_irregularpenguin.screen.gamescreen.util.ResourceManager;
 import com.besteleben.feature_irregularpenguin.service.HighscoreService;
-import com.besteleben.feature_irregularpenguin.service.SettingsService;
 import com.besteleben.feature_irregularpenguin.service.VocabularyService;
 
 /**
@@ -35,8 +32,6 @@ public class GameScreen extends ScreenAdapter {
     private final InputMultiplexer inputMultiplexer;
     /** Reference to the Highscore Service */
     private HighscoreService highscoreService;
-    /** Reference to the Settings Service */
-    private SettingsService settingsService;
     /** Reference to the VocabularyService */
     private VocabularyService vocabularyService;
 
@@ -51,7 +46,7 @@ public class GameScreen extends ScreenAdapter {
         viewport.apply();
 
         createServices();
-        controller = new GameController(stage, settingsService,highscoreService,vocabularyService);
+        controller = new GameController(stage,highscoreService,vocabularyService);
 
         resourceManager = ResourceManager.getInstance();
         inputMultiplexer = new InputMultiplexer();
@@ -73,9 +68,8 @@ public class GameScreen extends ScreenAdapter {
      * for creating the services - just for keeping the constructor clean
      */
     private void createServices() {
-        settingsService = new SettingsService(new SettingsRepositoryImpl());
         highscoreService = new HighscoreService(new HighscoreRepositoryImpl());
-        vocabularyService = new VocabularyService(new VocabularyRepositoryImplApi());
+        vocabularyService = new VocabularyService(new VocabularyRepositoryImpl());
     }
 
     /**
@@ -100,25 +94,6 @@ public class GameScreen extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 controller.startNewGame();
-                return true;
-            }
-        });
-
-        stage.getSettingsButton().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                controller.showSettings();
-                return true;
-            }
-        });
-
-        SettingsDialogBox settingsDialogBox = stage.getSettingsDialogBox();
-        settingsDialogBox.getSaveButton().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                String wantedPlayername = settingsDialogBox.getPlayerNameField().getText();
-                controller.changePlayerName(wantedPlayername);
-                settingsDialogBox.hide();
                 return true;
             }
         });

@@ -2,40 +2,54 @@ package com.besteleben.feature_irregularpenguin.data.repository;
 
 import com.besteleben.feature_irregularpenguin.data.objects.HighscoreEntry;
 
-import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * saves the highscore in a local file highscore.dat
  */
 public class HighscoreRepositoryImpl implements HighscoreRepository {
     /**
-     * Filename to load
+     * die Datenbank Adresse mit Auswahl des richtigen Treibers
      */
-    private final String highscorePath = "highscore/highscore.dat";
+    private static final String DB_URL = "jdbc:mariadb://mj13.serverdomain.org:3306/wa3454_db3";
+    /**
+     * Username für den Login in die DB
+     */
+    private static final String USERNAME = "wa3454_3";
+    /**
+     * passwort für die datenbank verbindung
+     */
+    private static final String PASSWORD = "Alfatraining1!";
+
     /**
      * load data from backend
      *
      * @return the highscore list with several entries
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<HighscoreEntry> loadHighscore() {
-        File highscoreFile = new File(highscorePath);
-        if(!highscoreFile.exists()){
-            return new ArrayList<>();
+        String query = "SELECT * FROM highscore";
+        try (Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            List<HighscoreEntry> highscoreEntryList = new ArrayList<>();
+            while (resultSet.next()) {
+                HighscoreEntry entry = new HighscoreEntry(
+                        resultSet.getString("playername"),
+                        resultSet.getInt("playerscore")
+                );
+                int id = resultSet.getInt("id");
+                entry.setId(id);
+                highscoreEntryList.add(entry);
+            }
+            return highscoreEntryList;
+        } catch (SQLException exception) {
+            System.out.println("Datenbank nicht erreichbar");
         }
-        List<HighscoreEntry> loadedHighscore = new ArrayList<>();
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(highscorePath))) {
-            Object test = inputStream.readObject();
-            loadedHighscore = (List<HighscoreEntry>) test;
-
-        } catch (IOException | ClassNotFoundException exception) {
-//            System.err.println("Can't access file!");
-            exception.printStackTrace();
-        }
-        return loadedHighscore;
+        return new ArrayList<>();
     }
 
     /**
@@ -45,11 +59,20 @@ public class HighscoreRepositoryImpl implements HighscoreRepository {
      */
     @Override
     public void saveHighscore(List<HighscoreEntry> highscoreList) {
-        try(ObjectOutputStream outputStream = new ObjectOutputStream( new FileOutputStream(highscorePath))){
-            outputStream.writeObject(highscoreList);
-        } catch(IOException exception){
-            System.err.println("Fehler beim speichern der Liste");
-//            exception.printStackTrace();
+        String sql = "UPDATE highscore SET playername = ?, playerscore = ? WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (int i = 0; i < highscoreList.size(); i++) {
+                statement.setString(1, highscoreList.get(i).getPlayerName());
+                statement.setInt(2, highscoreList.get(i).getPlayerScore());
+                statement.setInt(3, i + 1);
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        } catch (SQLException exception) {
+            System.out.println("Fehler beim Updaten der Highscore");
         }
     }
 }
+
+

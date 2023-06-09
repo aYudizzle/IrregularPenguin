@@ -16,8 +16,8 @@ public class PasswordUtils {
             messageDigest.update(salt.getBytes());
             byte[] hashedBytes = messageDigest.digest(password.getBytes());
             hashedPassword = Base64.getEncoder().encodeToString(hashedBytes);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException exception) {
+            exception.printStackTrace();
         }
         return hashedPassword;
     }

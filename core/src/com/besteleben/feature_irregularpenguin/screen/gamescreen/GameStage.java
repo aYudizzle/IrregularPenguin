@@ -21,7 +21,6 @@ import com.besteleben.feature_irregularpenguin.entities.components.AnswerTextFie
 import com.besteleben.feature_irregularpenguin.entities.components.Background;
 import com.besteleben.feature_irregularpenguin.entities.components.Floor;
 import com.besteleben.feature_irregularpenguin.entities.components.LifeBar;
-import com.besteleben.feature_irregularpenguin.dialogs.SettingsDialogBox;
 import com.besteleben.feature_irregularpenguin.screen.gamescreen.util.ResourceManager;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 public class GameStage extends Stage {
     /**
-     * Screenmanager to switch to another screen when the game ends
+     * Screenmanager to switch to another screen when needed
      */
     private ScreenManager screenManager;
     /**
@@ -92,14 +91,6 @@ public class GameStage extends Stage {
      */
     private Table tableUpperRightCorner;
     /**
-     * Button to open the Settings Dialog
-     */
-    private ImageButton settingsButton;
-    /**
-     * Dialogbox for player settings
-     */
-    private SettingsDialogBox settingsDialogBox;
-    /**
      * constructor gets called when the stage get created and applies the viewport
      * @param viewport the given viewport by the Screen
      */
@@ -133,21 +124,14 @@ public class GameStage extends Stage {
         tableUpperRightCorner.top().right();
         tableUpperRightCorner.defaults().spaceTop(5f).spaceBottom(5f);
         float buttonImageScaling = 0.6f;
-        tableUpperRightCorner.add(settingsButton)
-                .padRight(5)
-                .padTop(10)
-                .size(restartButton.getHeight()*buttonImageScaling,restartButton.getHeight()*buttonImageScaling);
         tableUpperRightCorner.add(restartButton)
                 .padRight(5)
                 .padTop(10)
                 .size(restartButton.getWidth() * buttonImageScaling, restartButton.getHeight() * buttonImageScaling);
         tableUpperRightCorner.row();
-        tableUpperRightCorner.add();
         tableUpperRightCorner.add(highscoreButton)
                 .padRight(5)
                 .size(highscoreButton.getWidth() * buttonImageScaling, highscoreButton.getHeight() * buttonImageScaling);
-
-        settingsDialogBox = new SettingsDialogBox("",resourceManager.getSkin());
     }
 
     /**
@@ -176,7 +160,6 @@ public class GameStage extends Stage {
         answerButton = new ImageButton(new TextureRegionDrawable(new Texture("button/answer_buttonup.png")), new TextureRegionDrawable(new Texture("button/answer_buttondown.png")));
         restartButton = new ImageButton(new TextureRegionDrawable(new Texture("button/restart_buttonup.png")), new TextureRegionDrawable(new Texture("button/restart_buttondown.png")));
         highscoreButton = new ImageButton(new TextureRegionDrawable(new Texture("button/highscore_buttonup.png")), new TextureRegionDrawable(new Texture("button/highscore_buttondown.png")));
-        settingsButton = new ImageButton(new TextureRegionDrawable(new Texture("button/settings_buttonup.png")), new TextureRegionDrawable(new Texture("button/settings_buttondown.png")));
         lifeBar = new LifeBar(new TextureRegion(new Texture("lifebar/heart_full.png")), new TextureRegion(new Texture("lifebar/heart_lost.png")));
         tableUpperRightCorner = new Table();
     }
@@ -243,6 +226,7 @@ public class GameStage extends Stage {
             answerButton.setVisible(false);
         } else {
             lifeBar.setFilledHearts(life);
+
             if (lifeBar.getActualHearts() == 0) {
                 gameOver();
             }
@@ -260,12 +244,6 @@ public class GameStage extends Stage {
         answerTextField.setFocusTraversal(false);
         answerButton.setVisible(false);
         answerTextField.setText("Better luck next time.");
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-            screenManager.setScreen("mainmenu");
-            }
-        }, 0.5f);
     }
 
     /**
@@ -329,16 +307,6 @@ public class GameStage extends Stage {
         lifeBar.setFilledHearts(life);
         highscoreDisplay.setText(highscore);
     }
-
-    /**
-     * shows the settings dialog
-     * @param actualPlayername the actual playerName.
-     */
-    public void showSettingsDialog(String actualPlayername) {
-        settingsDialogBox.setPlayerName(actualPlayername);
-        settingsDialogBox.show(this);
-    }
-
     /**
      * Gets answerTextField.
      *
@@ -372,24 +340,5 @@ public class GameStage extends Stage {
     public ImageButton getHighscoreButton() {
         return highscoreButton;
     }
-
-    /**
-     * Gets settingsButton.
-     *
-     * @return value of settingsButton
-     */
-    public ImageButton getSettingsButton() {
-        return settingsButton;
-    }
-
-    /**
-     * Gets settingsDialogBox.
-     *
-     * @return value of settingsDialogBox
-     */
-    public SettingsDialogBox getSettingsDialogBox() {
-        return settingsDialogBox;
-    }
-
 
 }

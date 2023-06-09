@@ -80,12 +80,6 @@ public class LoginStage extends Stage {
         registrationFormularDialog = new CustomRegistrationDialog("",resourceManager.getSkin(),"Registration.","register","cancel");
         loginErrorDialog = new CustomInfoDialog("",resourceManager.getSkin(), "User could not be found.","register","ok");
     }
-
-    private void clearFields() {
-        usernameField.setText("");
-        passwordField.setText("");
-    }
-
     public void showLoginErrorDialog(String textToShow) {
         loginErrorDialog.getTextToShow().setText(textToShow);
         loginErrorDialog.show(this);

@@ -52,7 +52,8 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     public QuestionerGhost(float frameDuration, float defaultX, float defaultY, Skin skin) {
         this.defaultY = defaultY;
         //150px to the right to get the ghost off center and infront of the penguin
-        this.defaultX = defaultX + 150;
+        this.defaultX = defaultX + 50;
+//        this.defaultX = 450;
         this.frameDuration = frameDuration;
         this.questionLabel = new Label("", skin);
 
@@ -63,7 +64,6 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     }
     /** initialize the base settings of the speechbubble/label so it gets displayed on the right coordinates on the screen */
     private void initializeLabel() {
-        questionLabel.setPosition(defaultX - 250, defaultY + 50);
         questionLabel.setAlignment(Align.top);
         Texture textureRegion = new Texture("stage/speechbubble.png");
         speechBubbleTable = new Table();
@@ -73,7 +73,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         speechBubbleTable.setBackground(new NinePatchDrawable(speechBubblePatch));
         speechBubbleTable.add(questionLabel).pad(10).grow().top().left();
         speechBubbleTable.setSize(200, 100);
-        speechBubbleTable.setPosition(defaultX - 275, defaultY + 75);
+        speechBubbleTable.setPosition(defaultX - 190, defaultY + 75);
 
 
         questionLabel.setScale(0.75f);
@@ -92,7 +92,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         blinkAnimation = new Animation<>(frameDuration, blinkFrames, Animation.PlayMode.NORMAL);
         appearingAnimation = new Animation<>(frameDuration, blinkFrames, Animation.PlayMode.REVERSED);
         setSize(blinkFrames.first().getRegionWidth(), blinkFrames.first().getRegionHeight());
-        setX(defaultX - 100);
+        setX(defaultX);
         setY(defaultY);
         setScale(3);
     }
@@ -108,7 +108,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     @Override
     public void act(float delta) {
         super.act(delta);
-        defaultX = getStage().getWidth() / 2;
+//        defaultX = getStage().getWidth() / 2;
         elapsedTime += delta;
         TextureRegion currentFrame;
         if (appearingAnimation.isAnimationFinished(elapsedTime)) {
@@ -193,7 +193,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         elapsedTimeDisappearing = 0;
         elapsedTime = 0;
         questionAnswered = false;
-        setX(defaultX+50); //todo why tho ohne 50 verschieben is der ghost offset
+        setX(defaultX);
     }
     /**
      * Sets actualTexture.
