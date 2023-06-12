@@ -33,6 +33,7 @@ public class DesktopLauncher {
 	 * @param arg for starting arguments those are not needed
 	 * */
 	public static void main (String[] arg) {
+
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		//configuration for the app window

@@ -18,37 +18,64 @@ import com.besteleben.feature_login.dialogs.CustomRegistrationDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * LoginStage holding all the actors.
+ */
 public class LoginStage extends Stage {
+    /**
+     * list of all actors in the stage
+     */
     private final List<Actor> loginActors;
+    /**
+     * a textfield to receive the username input
+     */
     private TextField usernameField;
+    /**
+     * a passwordfield to receive the password input
+     */
     private TextField passwordField;
+    /**
+     * Button to fire the login event
+     */
     private ImageButton loginButton;
-
+    /**
+     * the resourcemanager with the certain skin file.
+     */
     private final ResourceManager resourceManager;
+    /** to manage the screens and handle screenchanges */
     private ScreenManager screenManager;
+    /**
+     * loginErrorDialog is the dialog to handle login errors like wrong login credentials
+     */
     private CustomInfoDialog loginErrorDialog;
+    /**
+     * if the user did not exist, the registration formular can be used to register yourself.
+     */
     private CustomRegistrationDialog registrationFormularDialog;
 
     /**
      * Creates a stage with a {@link ScalingViewport} set to {@link Scaling#stretch}. The stage will use its own {@link Batch}
      * which will be disposed when the stage is disposed.
+     * @param screenManager a reference to the screenmanager to work with it.
      */
     public LoginStage(ScreenManager screenManager) {
         this.screenManager = screenManager;
         loginActors = new ArrayList<>();
         resourceManager = ResourceManager.getInstance();
 
-        initUI();
+        init();
         buildDialogBoxes();
     }
 
-    private void initUI() {
-        //Background
+    /**
+     * method to initialize the stage with an Image as a Background. The formular is getting added to a table
+     * and the table is getting added to a container for better placement on the screen.
+     */
+    private void init() {
         Texture backgroundTexture = new Texture(Gdx.files.internal("login/login_background.png"));
         Image backgroundImage = new Image(backgroundTexture);
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         addActor(backgroundImage);
-
 
         Table loginTable = new Table();
         loginTable.setWidth(410);
@@ -68,24 +95,33 @@ public class LoginStage extends Stage {
         loginTable.add(usernameField).width(200).height(40).padBottom(20).row();
         loginTable.add(passwordField).width(200).height(40).padBottom(20).row();
         loginTable.add(loginButton).width(120).height(40).colspan(2).row();
+        //container to reposition the login form
         Container<Table> loginContainer = new Container<>(loginTable);
         loginContainer.setPosition(400,310);
         addActor(loginContainer);
-
-//        addActor(loginButton);
     }
 
-
+    /**
+     * build the dialog boxes in a method instead of the constructor to keep the constructor cleaner
+     */
     private void buildDialogBoxes() {
-        registrationFormularDialog = new CustomRegistrationDialog("",resourceManager.getSkin(),"Registration.","register","cancel");
+        registrationFormularDialog = new CustomRegistrationDialog("",resourceManager.getSkin(),"register","cancel");
         loginErrorDialog = new CustomInfoDialog("",resourceManager.getSkin(), "User could not be found.","register","ok");
     }
-    public void showLoginErrorDialog(String textToShow) {
-        loginErrorDialog.getTextToShow().setText(textToShow);
+
+    /**
+     * to show the Login Error Dialog with a error message
+     * @param errorMessage the message for the error dialog
+     */
+    public void showLoginErrorDialog(String errorMessage) {
+        loginErrorDialog.getTextToShow().setText(errorMessage);
         loginErrorDialog.show(this);
     }
 
-    public void registrationFailedDialog() {
+    /**
+     * to show the registration failed dialog
+     */
+    public void showRegistrationFailedDialog() {
         Dialog failedRegistration = new Dialog("",resourceManager.getSkin());
         failedRegistration.setBackground(new TextureRegionDrawable(new Texture("dialog/dialogbg.png")));
         failedRegistration.pad(20);
@@ -161,6 +197,4 @@ public class LoginStage extends Stage {
     public CustomRegistrationDialog getRegistrationFormularDialog() {
         return registrationFormularDialog;
     }
-
-
 }

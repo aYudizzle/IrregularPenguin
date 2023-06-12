@@ -17,6 +17,14 @@ public class WrongVocabulariesEntry {
     /** count of right answers */
     private int countOfRightAnswers;
 
+    /**
+     * creating a transfer Object for given wrong answers
+     * @param id id of the entry
+     * @param userId user id of the wrong given answer
+     * @param vocabularyId id of the vocabulary
+     * @param dateOfWrongAnswer date of the wrong given answer
+     * @param countOfRightAnswers how often did the user give the right answer after the last time of the wrong answer.
+     */
     public WrongVocabulariesEntry(int id, int userId, int vocabularyId, LocalDate dateOfWrongAnswer, int countOfRightAnswers) {
         this.id = id;
         this.userId = userId;

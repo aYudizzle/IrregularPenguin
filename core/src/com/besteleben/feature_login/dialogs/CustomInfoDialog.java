@@ -5,17 +5,43 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+/**
+ * A custom information dialog with a custom text and two buttons
+ */
 public class CustomInfoDialog extends Dialog {
+    /**
+     * one of the two buttons - on the left of the second button
+     */
     private TextButton leftButton;
+    /**
+     * the second button - on the right of the first button
+     */
     private TextButton rightButton;
+    /**
+     * text which should get displayed
+     */
     private Label textToShow;
 
+    /**
+     * Constructor for Custom Info Dialog
+     * @param title title of the dialog
+     * @param skin resouce reference for the skin
+     * @param text text which should get displayed in the dialog
+     * @param leftButtonCaption caption of the left button
+     * @param rightButtonCaption caption of the right button
+     */
     public CustomInfoDialog(String title, Skin skin, String text, String leftButtonCaption, String rightButtonCaption) {
         super(title, skin);
-        initialize(text, leftButtonCaption, rightButtonCaption);
+        init(text, leftButtonCaption, rightButtonCaption);
     }
 
-    private void initialize(String text, String leftButtonCaption, String rightButtonCaption) {
+    /**
+     * init method to initialize the custom dialog
+     * @param text text which should get displayed in the dialog
+     * @param leftButtonCaption caption of the left button
+     * @param rightButtonCaption caption of the right button
+     */
+    private void init(String text, String leftButtonCaption, String rightButtonCaption) {
 
         setBackground(new TextureRegionDrawable(new Texture("dialog/dialogbg.png")));
         setModal(true);

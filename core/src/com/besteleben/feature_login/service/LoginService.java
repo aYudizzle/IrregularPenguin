@@ -7,13 +7,30 @@ import com.besteleben.feature_login.objects.UserData;
 import com.besteleben.feature_login.repository.LoginRepository;
 import com.besteleben.feature_login.service.utils.PasswordUtils;
 
+/**
+ * Service to handle the business logic of the login screen
+ */
 public class LoginService {
+    /**
+     * the data source of the login service to verify user inputs
+     */
     private final LoginRepository loginRepository;
 
+    /**
+     * constructor with the given login repository
+     * @param loginRepository the repository to work with
+     */
     public LoginService(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
     }
 
+    /**
+     * method to authenticate the user
+     * @param username username of the userinput
+     * @param password password of the userinput
+     * @throws UserNotFoundException if the user does not exist the exception gets thrown
+     * @throws LoginCredentialsWrongException if the password is wrong this exception is getting thrown
+     */
     public void authenticateUser(String username, String password) throws UserNotFoundException, LoginCredentialsWrongException {
         UserData userData = loginRepository.getUserByUsername(username);
         if (userData != null) {
@@ -30,10 +47,22 @@ public class LoginService {
             }
         }
     }
-    public boolean checkUsername(String userName) {
-        return loginRepository.checkUserName(userName);
+
+    /**
+     * checks if a username is existent
+     * @param username the username to check
+     * @return true of false depending on the usernames existence
+     */
+    public boolean checkUsername(String username) {
+        return loginRepository.checkUserName(username);
     }
 
+    /**
+     * method to register a new user
+     * @param username username to register
+     * @param password chosen password
+     * @return true if the registration succeeded and false if its failed
+     */
     public boolean registerUser(String username, String password) {
         if(password.length()<8){
             return false;

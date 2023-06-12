@@ -15,6 +15,10 @@ import com.besteleben.feature_login.exceptions.UserNotFoundException;
 import com.besteleben.feature_login.repository.LoginRepositoryImpl;
 import com.besteleben.feature_login.service.LoginService;
 
+/**
+ * this is the login screen which creates a stage with all the actors of the stage and the
+ * controller to mediate between stage and middletier
+ */
 public class LoginScreen extends ScreenAdapter {
     /**
      * manages the Actors which are getting shown by the screen
@@ -39,13 +43,16 @@ public class LoginScreen extends ScreenAdapter {
         this.screenManager = screenManager;
         stage = new LoginStage(screenManager);
         controller = new LoginController(new LoginService(new LoginRepositoryImpl()));
-        initializeButtonHandler();
+        initButtonHandler();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    private void initializeButtonHandler() {
+    /**
+     * initialize all the needed button handlers.
+     */
+    private void initButtonHandler() {
         stage.getLoginButton().addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -92,17 +99,20 @@ public class LoginScreen extends ScreenAdapter {
                 String username = stage.getRegistrationFormularDialog().getUsernameField().getText();
                 String password = stage.getRegistrationFormularDialog().getPasswordField().getText();
                 boolean result = controller.registerUser(username,password);
-                System.out.println(result);
                 if(result){
                     stage.getRegistrationFormularDialog().hide();
                 }else{
-                    stage.registrationFailedDialog();
+                    stage.showRegistrationFailedDialog();
                 }
                 return true;
             }
         });
     }
 
+    /**
+     * renders the screen with the given delta time
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         ScreenUtils.clear(new Color(186 / 255f, 235 / 255f, 255 / 255f, 1));

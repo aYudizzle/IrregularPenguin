@@ -93,6 +93,7 @@ public class GameStage extends Stage {
     /**
      * constructor gets called when the stage get created and applies the viewport
      * @param viewport the given viewport by the Screen
+     * @param screenManager a reference to the screenmanager who handles the different screens
      */
     public GameStage(FitViewport viewport, ScreenManager screenManager) {
         super(viewport);
@@ -216,7 +217,7 @@ public class GameStage extends Stage {
 
     /**
      * gets called by the controller when the answer got validated by the middletier
-     * @param life lifes from player
+     * @param life life of the player
      * @param result if the answer was right or wrong (true or false)
      */
     public void reactionToAnswer(boolean result, int life) {
@@ -226,7 +227,6 @@ public class GameStage extends Stage {
             answerButton.setVisible(false);
         } else {
             lifeBar.setFilledHearts(life);
-
             if (lifeBar.getActualHearts() == 0) {
                 gameOver();
             }

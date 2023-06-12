@@ -38,6 +38,7 @@ public class GameScreen extends ScreenAdapter {
     /**
      * Konstruktor der den GameScreen erstellt. Außerdem die Stage, sowie eine Instanz des GameControllers,
      * der die Kommunikation zum Service ermoeglicht
+     * @param screenManager reference to the screenmanager who handles the different screens
      */
     public GameScreen(ScreenManager screenManager) {
         viewport = new FitViewport(800,600);

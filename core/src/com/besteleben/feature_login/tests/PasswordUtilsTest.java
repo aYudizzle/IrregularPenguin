@@ -1,10 +1,15 @@
 package com.besteleben.feature_login.tests;
 
-import com.besteleben.feature_login.repository.LoginRepositoryImpl;
-import com.besteleben.feature_login.service.LoginService;
 import com.besteleben.feature_login.service.utils.PasswordUtils;
 
+/**
+ * Test Class for PasswordUtils
+ */
 public class PasswordUtilsTest {
+    /**
+     * to start the tests for simple testing purposes
+     * @param args not used in this case
+     */
     public static void main(String[] args) {
         String salt = PasswordUtils.generateSalt();
         //Simulierte user inputs

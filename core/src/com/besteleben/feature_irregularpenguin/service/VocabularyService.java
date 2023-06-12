@@ -50,6 +50,7 @@ public class VocabularyService {
     /**
      * generate Data for the question and checks if an answer given needs to remove from the wrong answer list
      *
+     * @param answerCorrect was the answer correct or wrong
      * @return a QuestionerData Object containing the QuestionerGhostColor and the verb to ask for
      */
     public QuestionerData generateNextQuestion(boolean answerCorrect) {

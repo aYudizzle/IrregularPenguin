@@ -38,8 +38,6 @@ public class GameController {
      * Question Data which is needed to ask for the answer
      */
     public QuestionerData questionerData;
-
-
     /**
      * constructing the mediator for communication between service and frontend
      * @param highscoreService highscore service for manage the highscore
@@ -55,28 +53,28 @@ public class GameController {
     }
     /**
      * get called when the user input needs to be validated by the service
-     * if the answer is correct it calls the nextRound method after a short delay
+     * if the answer is correct or wrong it calls the nextQuestion method and handles the right/wrong answer
      * @param userInput the answer given by the user
      */
     public void handleUserInput(String userInput) {
         boolean answerCorrect = vocabularyService.checkAnswer(userInput);
+        // when the answer is wrong
         if (!answerCorrect) {
             player.decreaseLife();
-            vocabularyService.saveWrongAnsweredVocabulary();
-            questionerData = vocabularyService.generateNextQuestion(answerCorrect);
-            stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
-
+            nextQuestion(answerCorrect);
             if (player.getLife() == 0) {
                 gameOver();
             }
         }
+        // give result to frontend
         stage.reactionToAnswer(answerCorrect, player.getLife());
+        // if the was correct
         if (answerCorrect) {
             player.increaseScore();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    nextRound(answerCorrect);
+                    nextQuestion(answerCorrect);
                 }
             }, 3f);
         }
@@ -90,15 +88,22 @@ public class GameController {
         showHighscore();
     }
     /**
-     * method gets call when the answer is correct and the
-     * next round shall start.
+     * method gets call when the answer was correct or wrong and the next question should be generated
+     * if the answer was wrong it should be saved as wrong vocabulary
+     * @param answerCorrect if the answer is correct
      */
-    public void nextRound(boolean answerCorrect) {
+    public void nextQuestion(boolean answerCorrect) {
+        // save vocabulary as wrong
+        if(!answerCorrect){
+            vocabularyService.saveWrongAnsweredVocabulary();
+        }
         questionerData = vocabularyService.generateNextQuestion(answerCorrect);
         stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
-        stage.reset();
+        //reset stage when the answer is correct
+        if(answerCorrect) {
+            stage.reset();
+        }
     }
-
     /**
      * this method starts the game initially
      */
@@ -107,7 +112,6 @@ public class GameController {
         stage.prepareRound(questionerData, player.getLife(),player.getHighscore());
         player.setPlayerName(User.getInstance().getUsername());
     }
-
     /**
      * method to start a new game start a new game
      */

@@ -11,7 +11,7 @@ import java.util.List;
 public interface VocabularyRepository {
     /**
      * zum Suchen eines zufaelligen datensatzes aus der datenquelle
-     * @return gibt ein VocabularyDTO zurueck
+     * @return gibt ein Vocabulary object zurueck
      */
     Vocabulary getRandomVocabulary();
 
@@ -37,10 +37,14 @@ public interface VocabularyRepository {
 
     /**
      * gets a wrong answered vocabulary by user id and vocabularyId;
+     * @param vocabularyId vocabularyId to look up
+     * @param userId userId to lookup
+     * @return returns a WrongVocabularyEntry Object
      */
-    WrongVocabulariesEntry getWrongAnsweredVocabularyById(int userId, int VocabularyId);
+    WrongVocabulariesEntry getWrongAnsweredVocabularyById(int userId, int vocabularyId);
     /**
      * list of all wrong answered vocabularies by the user
+     * @param userId id of the user to lookup
      * @return list of all wrong answered vocabularies by the user
      */
     List<WrongVocabulariesEntry> getWrongAnsweredVocabularies(int userId);

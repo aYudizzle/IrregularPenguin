@@ -1,15 +1,34 @@
 package com.besteleben.feature_login.objects;
 
-import java.time.LocalDate;
 
+/**
+ * User as singleton
+ * this holds the needed user data if the user successfully logged in.
+ */
 public class User {
+    /**
+     * reference of the user object - needed for the Singleton pattern
+     */
     private static User user;
+    /**
+     * id of the user
+     */
     private int id;
+    /**
+     * username of the user
+     */
     private String username;
 
+    /**
+     * private constructor, so the user can not be instanced multiple times
+     */
     private User() {
     }
 
+    /**
+     * method to get the single instance of the user Object, if it is not existence, then it will be created
+     * @return the instance of the user object
+     */
     public static User getInstance(){
         if(user == null){
             user = new User();
@@ -55,6 +74,10 @@ public class User {
         }
     }
 
+    /**
+     * mainly used for debugging purposes to print the object readable
+     * @return user object as string
+     */
     @Override
     public String toString() {
         return "User{" +

@@ -6,6 +6,10 @@ import com.besteleben.feature_login.objects.UserData;
 import java.sql.*;
 import java.time.LocalDate;
 
+/**
+ * This is an implementation of the LoginRepository Interface
+ * using a maria db
+ */
 public class LoginRepositoryImpl implements LoginRepository {
 
     private static final String DB_URL = "jdbc:mariadb://mj13.serverdomain.org:3306/wa3454_db3";
@@ -17,7 +21,12 @@ public class LoginRepositoryImpl implements LoginRepository {
      * passwort für die datenbank verbindung
      */
     private static final String PASSWORD = "Alfatraining1!";
-
+    /**
+     * gets the user by username
+     * @param username username to look up
+     * @return the user data if the user exists.
+     * @throws UserNotFoundException if the user does not exist this exception will be thrown
+     */
     @Override
     public UserData getUserByUsername(String username) throws UserNotFoundException {
         String sql = "SELECT * FROM users WHERE `username` = ?";
@@ -44,6 +53,11 @@ public class LoginRepositoryImpl implements LoginRepository {
         return user;
     }
 
+    /**
+     * checks if a username is already in use
+     * @param username username to lookup
+     * @return true if the user is not in use and still available and false if its already registered
+     */
     @Override
     public boolean checkUserName(String username) {
         String sql = "SELECT * FROM users WHERE `username` = ?";

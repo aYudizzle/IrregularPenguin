@@ -2,13 +2,39 @@ package com.besteleben.feature_login.objects;
 
 import java.time.LocalDate;
 
+/**
+ * An UserData Object for transferring the user data from one layer to the other one.
+ */
 public class UserData {
+    /**
+     * id of the user
+     */
     private int id;
+    /**
+     * username of the user
+     */
     private String username;
+    /**
+     * hashed password of the user
+     */
     private String password;
+    /**
+     * salt used for hashing the password
+     */
     private String salt;
+    /**
+     * registration date of the user
+     */
     private LocalDate created_at;
 
+    /**
+     * Constructor of the user object
+     * @param id the id of the user
+     * @param username the username of the user
+     * @param password the password of the user
+     * @param salt the used salt for hashing the password
+     * @param created_at creation date of the user
+     */
     public UserData(int id, String username, String password, String salt, LocalDate created_at) {
         this.id = id;
         this.username = username;
@@ -71,12 +97,4 @@ public class UserData {
         return id;
     }
 
-    /**
-     * Gets created_at.
-     *
-     * @return value of created_at
-     */
-    public LocalDate getCreated_at() {
-        return created_at;
-    }
 }
