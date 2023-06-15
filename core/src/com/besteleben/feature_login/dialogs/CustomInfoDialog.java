@@ -24,10 +24,11 @@ public class CustomInfoDialog extends Dialog {
 
     /**
      * Constructor for Custom Info Dialog
-     * @param title title of the dialog
-     * @param skin resouce reference for the skin
-     * @param text text which should get displayed in the dialog
-     * @param leftButtonCaption caption of the left button
+     *
+     * @param title              title of the dialog
+     * @param skin               resource reference for the skin
+     * @param text               text which should get displayed in the dialog
+     * @param leftButtonCaption  caption of the left button
      * @param rightButtonCaption caption of the right button
      */
     public CustomInfoDialog(String title, Skin skin, String text, String leftButtonCaption, String rightButtonCaption) {
@@ -37,8 +38,9 @@ public class CustomInfoDialog extends Dialog {
 
     /**
      * init method to initialize the custom dialog
-     * @param text text which should get displayed in the dialog
-     * @param leftButtonCaption caption of the left button
+     *
+     * @param text               text which should get displayed in the dialog
+     * @param leftButtonCaption  caption of the left button
      * @param rightButtonCaption caption of the right button
      */
     private void init(String text, String leftButtonCaption, String rightButtonCaption) {
@@ -51,7 +53,7 @@ public class CustomInfoDialog extends Dialog {
         // on esc close dialog
         key(Input.Keys.ESCAPE, false);
 
-        // Füge die Buttons zu einer Button-Tabelle hinzu um diese besser adjusten zu koennen.
+        // Füge die Buttons zu einer Button-Tabelle hinzu um diese besser 'adjusten' zu koennen.
         Table buttonTable = new Table();
         buttonTable.defaults().padRight(10);
 

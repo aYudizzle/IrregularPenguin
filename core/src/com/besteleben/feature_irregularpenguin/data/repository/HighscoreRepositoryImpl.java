@@ -1,11 +1,12 @@
 package com.besteleben.feature_irregularpenguin.data.repository;
 
 import com.besteleben.feature_irregularpenguin.data.objects.HighscoreEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * saves the highscore in a local file highscore.dat
@@ -23,9 +24,12 @@ public class HighscoreRepositoryImpl implements HighscoreRepository {
      * passwort für die datenbank verbindung
      */
     private static final String PASSWORD = "Alfatraining1!";
-
     /**
-     * load data from backend
+     * Logger for logging errors in a logfile
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(HighscoreRepositoryImpl.class);
+    /**
+     * load highscoreList from backend
      *
      * @return the highscore list with several entries
      */
@@ -47,7 +51,7 @@ public class HighscoreRepositoryImpl implements HighscoreRepository {
             }
             return highscoreEntryList;
         } catch (SQLException exception) {
-            System.out.println("Datenbank nicht erreichbar");
+            LOGGER.error("ERROR:", exception);
         }
         return new ArrayList<>();
     }
@@ -70,7 +74,7 @@ public class HighscoreRepositoryImpl implements HighscoreRepository {
             }
             statement.executeBatch();
         } catch (SQLException exception) {
-            System.out.println("Fehler beim Updaten der Highscore");
+            LOGGER.error("ERROR:", exception);
         }
     }
 }

@@ -10,21 +10,24 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * The Background for the stage
  */
 public class Background extends Actor {
-    /** TextureRegion for the Background */
-    private final TextureRegion backgroundRegion;
+    /**
+     * TextureRegion for the Background
+     */
+    private TextureRegion backgroundRegion;
     /**
      * width of the screen so the background can fill the whole width
      */
-    private final float screenWidth;
+    private float screenWidth;
     /**
-     * base height where the characters stands.
+     * base height where the character stands.
      */
-    private final float baseLine;
+    private float baseLine;
 
     /**
      * constructor for the background
+     *
      * @param backgroundTexture stage for the texture of the background
-     * @param baseLine Y coordinates where the characters move along
+     * @param baseLine          Y coordinates where the characters move along
      */
     public Background(Texture backgroundTexture, float baseLine) {
         this.screenWidth = Gdx.graphics.getWidth();
@@ -40,10 +43,12 @@ public class Background extends Actor {
 
     /**
      * draws the background with the given texture
-     * @param batch The Batch for the texture - a batch is a rectangle where the texture is getting applied
+     *
+     * @param batch       The Batch for the texture - a batch is a rectangle where the texture is getting applied
      * @param parentAlpha The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
-     *           children.
+     *                    children.
      */
+    @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(backgroundRegion, getX(), getY(), getOriginX(), getOriginY(), screenWidth, getHeight(), getScaleX(), getScaleY(), getRotation());
     }

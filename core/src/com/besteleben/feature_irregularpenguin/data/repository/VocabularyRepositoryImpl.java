@@ -2,6 +2,8 @@ package com.besteleben.feature_irregularpenguin.data.repository;
 
 import com.besteleben.feature_irregularpenguin.data.objects.Vocabulary;
 import com.besteleben.feature_irregularpenguin.data.objects.WrongVocabulariesEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -25,6 +27,10 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
      * passwort für die datenbank verbindung
      */
     private static final String PASSWORD = "Alfatraining1!";
+    /**
+     * Logger for logging errors in a logfile
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(VocabularyRepositoryImpl.class);
 
     /**
      * Auslesen eines random Datensatzen aus der Vokabel Datenbank.
@@ -46,14 +52,15 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
                 return vocabulary;
             }
         } catch (SQLException exception) {
-            System.out.println("Keine Datenverbindung möglich");
+            LOGGER.error("ERROR:", exception);
         }
         return null;
     }
 
     /**
-     * save a wrong given answer so it can be reasked after a certain time
-     * @param userId id from the user who answered the vocabulary wrong
+     * save a wrong given answer, so it can be reasked after a certain time
+     *
+     * @param userId       id from the user who answered the vocabulary wrong
      * @param vocabularyId id from vocabulary which got answered wrong
      */
     @Override
@@ -87,7 +94,7 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
                 }
             }
         } catch (SQLException exception) {
-            System.out.println("Datenbank nicht erreichbar!");
+            LOGGER.error("ERROR:", exception);
         }
     }
 
@@ -119,14 +126,14 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
 
                 return wrongEntries;
             }
-        } catch (SQLException e) {
-            System.out.println("Datenbank zugriff nicht moeglich.");
+        } catch (SQLException exception) {
+            LOGGER.error("ERROR:", exception);
         }
         return new ArrayList<>();
     }
 
     /**
-     * look up for an vocabulary by Id
+     * look up for a vocabulary by id
      *
      * @param idToLookUp the id to lookup
      * @return the vocabulary
@@ -147,8 +154,8 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
                     return vocabulary;
                 }
             }
-        } catch (SQLException e) {
-            System.out.println("Datenbankverbindung nicht moeglich.");
+        } catch (SQLException exception) {
+            LOGGER.error("ERROR:", exception);
         }
         return null;
     }
@@ -170,8 +177,8 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
             updateStatement.setInt(3, vocabularyId);
             updateStatement.setInt(4, userId);
             updateStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Probleme beim herstellen der Datenbank Verbindung.");
+        } catch (SQLException exception) {
+            LOGGER.error("ERROR:", exception);
         }
     }
 
@@ -187,8 +194,8 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, answerId);
             statement.execute();
-        } catch (SQLException e) {
-            System.out.println("Datenbank nicht erreichbar.");
+        } catch (SQLException exception) {
+            LOGGER.error("ERROR:", exception);
         }
     }
 
@@ -199,7 +206,7 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
      * @param vocabularyId the vocabulary id
      */
     @Override
-    public WrongVocabulariesEntry getWrongAnsweredVocabularyById(int userId, int vocabularyId) {
+    public WrongVocabulariesEntry getWrongAnsweredVocabularyByIds(int userId, int vocabularyId) {
         String query = "SELECT * FROM wrong_answers WHERE vocabularyId = ? AND userId = ?";
         try (Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -216,8 +223,8 @@ public class VocabularyRepositoryImpl implements VocabularyRepository {
                     return entry;
                 }
             }
-        } catch (SQLException e) {
-            System.out.println("Fehler beim Verbinden mit der Datenbank.");
+        } catch (SQLException exception) {
+            LOGGER.error("ERROR:", exception);
         }
         return null;
     }

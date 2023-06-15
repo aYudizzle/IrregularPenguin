@@ -1,4 +1,4 @@
-package com.besteleben.feature_login.tests;
+package tests;
 
 import com.besteleben.feature_login.service.utils.PasswordUtils;
 
@@ -8,13 +8,14 @@ import com.besteleben.feature_login.service.utils.PasswordUtils;
 public class PasswordUtilsTest {
     /**
      * to start the tests for simple testing purposes
+     *
      * @param args not used in this case
      */
     public static void main(String[] args) {
         String salt = PasswordUtils.generateSalt();
         //Simulierte user inputs
-        String password = "alfa";
-        String username = "alfa1";
+        String password = "TestUser";
+        String username = "testToHash";
         String hashedPassword = PasswordUtils.hashPassword(password, salt);
         System.out.println("Salt: " + salt);
         System.out.println("Hashed Password: " + hashedPassword);

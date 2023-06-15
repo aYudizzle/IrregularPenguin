@@ -1,12 +1,16 @@
 package com.besteleben.feature_irregularpenguin.entities;
 
 /**
- * Player Component for the game representing the tries left for the player
+ * Player Object representing the players status
  */
 public class Player {
-    /** displaying the actual lifes - starting with 3 life per default */
+    /**
+     * displaying the actual lifes - starting with 3 life per default
+     */
     private int life = 3;
-    /** saving the corresponding highscore */
+    /**
+     * saving the corresponding highscore
+     */
     private int highscore;
     /**
      * PlayerName
@@ -14,14 +18,17 @@ public class Player {
     private String playerName;
 
     /**
-     *  Constructor of the player object
+     * Constructor of the player object
      */
-    public Player(){
+    public Player() {
         this.playerName = "unknown";
     }
-    /** removing the life if the player didnt get the right answer */
-    public void decreaseLife(){
-        if(life>0) {
+
+    /**
+     * removing the life if the player did not get the right answer
+     */
+    public void decreaseLife() {
+        if (life > 0) {
             life--;
         }
     }
@@ -29,7 +36,7 @@ public class Player {
     /**
      * resets the player state to starting values
      */
-    public void reset(){
+    public void reset() {
         life = 3;
         highscore = 0;
     }
@@ -37,9 +44,10 @@ public class Player {
     /**
      * increase the high score by 10 * life
      */
-    public void increaseScore(){
+    public void increaseScore() {
         highscore = highscore + life * 10;
     }
+
     /**
      * Gets life.
      *

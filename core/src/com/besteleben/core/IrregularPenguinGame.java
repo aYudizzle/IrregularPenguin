@@ -3,35 +3,35 @@ package com.besteleben.core;
 import com.badlogic.gdx.Game;
 import com.besteleben.feature_irregularpenguin.screen.gamescreen.GameScreen;
 import com.besteleben.feature_login.screen.LoginScreen;
-import org.apache.commons.logging.Log;
 
 /**
- * Klasse die den Einstieg in das Spiel darstellt,
- * hier wird der erste Screen festgesetzt und kann ggf. weitere Einstellungen gemacht werden.
- * Es soll auch nur ein game Fenster geben, daher kommt hier das Singleton Pattern zu tragen.
+ * Klasse, die den Einstieg in das Spiel darstellt,
+ * hier wird der Screenmanager erstellt und es koennen ggf. weitere Einstellungen gemacht werden.
  */
 
 public class IrregularPenguinGame extends Game {
-	/**
-	 * reference for the screen manager who switchs between different screens
-	 */
-	private ScreenManager screenManager;
+    /**
+     * reference for the screen manager who switchs between different screens
+     */
+    private ScreenManager screenManager;
 
-	/** Constructor der den ersten Screen laedt. */
-	@Override
-	public void create () {
-		screenManager = new ScreenManager(this);
+    /**
+     * create method where the screenManager gets created.
+     */
+    @Override
+    public void create() {
+        screenManager = new ScreenManager(this);
 
-		screenManager.addScreen("login", new LoginScreen(screenManager));
-		screenManager.addScreen("game", new GameScreen(screenManager));
-		screenManager.setScreen("login");
-	}
+        screenManager.addScreen("login", new LoginScreen(screenManager));
+        screenManager.addScreen("game", new GameScreen(screenManager));
+        screenManager.setScreen("login");
+    }
 
-	/**
-	 * clean up used ressources
-	 */
-	@Override
-	public void dispose() {
-		screenManager.dispose();
-	}
+    /**
+     * to clean up used ressources
+     */
+    @Override
+    public void dispose() {
+        screenManager.dispose();
+    }
 }

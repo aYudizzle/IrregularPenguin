@@ -25,7 +25,7 @@ public class LoginStage extends Stage {
     /**
      * list of all actors in the stage
      */
-    private final List<Actor> loginActors;
+    private List<Actor> loginActors;
     /**
      * a textfield to receive the username input
      */
@@ -41,8 +41,10 @@ public class LoginStage extends Stage {
     /**
      * the resourcemanager with the certain skin file.
      */
-    private final ResourceManager resourceManager;
-    /** to manage the screens and handle screenchanges */
+    private ResourceManager resourceManager;
+    /**
+     * to manage the screens and handle screenchanges
+     */
     private ScreenManager screenManager;
     /**
      * loginErrorDialog is the dialog to handle login errors like wrong login credentials
@@ -56,19 +58,20 @@ public class LoginStage extends Stage {
     /**
      * Creates a stage with a {@link ScalingViewport} set to {@link Scaling#stretch}. The stage will use its own {@link Batch}
      * which will be disposed when the stage is disposed.
+     *
      * @param screenManager a reference to the screenmanager to work with it.
      */
     public LoginStage(ScreenManager screenManager) {
         this.screenManager = screenManager;
         loginActors = new ArrayList<>();
-        resourceManager = ResourceManager.getInstance();
+        resourceManager = ResourceManager.getResourceManager();
 
         init();
         buildDialogBoxes();
     }
 
     /**
-     * method to initialize the stage with an Image as a Background. The formular is getting added to a table
+     * method to initialize the stage with an image as a background. The formular is getting added to a table
      * and the table is getting added to a container for better placement on the screen.
      */
     private void init() {
@@ -79,12 +82,12 @@ public class LoginStage extends Stage {
 
         Table loginTable = new Table();
         loginTable.setWidth(410);
-        Label titleLabel = new Label("Login",resourceManager.getSkin(),"login-label-style");
+        Label titleLabel = new Label("Login", resourceManager.getSkin(), "login-label-style");
 
-        usernameField = new TextField("", resourceManager.getSkin(),"loginField");
+        usernameField = new TextField("", resourceManager.getSkin(), "loginField");
         usernameField.setMessageText("Username");
 
-        passwordField = new TextField("", resourceManager.getSkin(),"loginField");
+        passwordField = new TextField("", resourceManager.getSkin(), "loginField");
         passwordField.setMessageText("Password");
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
@@ -97,7 +100,7 @@ public class LoginStage extends Stage {
         loginTable.add(loginButton).width(120).height(40).colspan(2).row();
         //container to reposition the login form
         Container<Table> loginContainer = new Container<>(loginTable);
-        loginContainer.setPosition(400,310);
+        loginContainer.setPosition(400, 310);
         addActor(loginContainer);
     }
 
@@ -105,12 +108,13 @@ public class LoginStage extends Stage {
      * build the dialog boxes in a method instead of the constructor to keep the constructor cleaner
      */
     private void buildDialogBoxes() {
-        registrationFormularDialog = new CustomRegistrationDialog("",resourceManager.getSkin(),"register","cancel");
-        loginErrorDialog = new CustomInfoDialog("",resourceManager.getSkin(), "User could not be found.","register","ok");
+        registrationFormularDialog = new CustomRegistrationDialog("", resourceManager.getSkin(), "register", "cancel");
+        loginErrorDialog = new CustomInfoDialog("", resourceManager.getSkin(), "User could not be found.", "register", "ok");
     }
 
     /**
-     * to show the Login Error Dialog with a error message
+     * to show the Login Error Dialog with an error message
+     *
      * @param errorMessage the message for the error dialog
      */
     public void showLoginErrorDialog(String errorMessage) {
@@ -122,7 +126,7 @@ public class LoginStage extends Stage {
      * to show the registration failed dialog
      */
     public void showRegistrationFailedDialog() {
-        Dialog failedRegistration = new Dialog("",resourceManager.getSkin());
+        Dialog failedRegistration = new Dialog("", resourceManager.getSkin());
         failedRegistration.setBackground(new TextureRegionDrawable(new Texture("dialog/dialogbg.png")));
         failedRegistration.pad(20);
         failedRegistration.text("Registration failed, please try again.");
@@ -142,6 +146,7 @@ public class LoginStage extends Stage {
 
     /**
      * draws the stage and all actors with the delta time in seconds
+     *
      * @param delta Time in seconds since the last frame.
      */
     @Override

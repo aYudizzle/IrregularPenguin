@@ -3,7 +3,7 @@ package com.besteleben.feature_login.objects;
 
 /**
  * User as singleton
- * this holds the needed user data if the user successfully logged in.
+ * this keeps the needed user data if the user successfully logged in.
  */
 public class User {
     /**
@@ -27,10 +27,11 @@ public class User {
 
     /**
      * method to get the single instance of the user Object, if it is not existence, then it will be created
+     *
      * @return the instance of the user object
      */
-    public static User getInstance(){
-        if(user == null){
+    public static User getInstance() {
+        if (user == null) {
             user = new User();
         }
         return user;
@@ -69,13 +70,14 @@ public class User {
      * @param id value of id
      */
     public void setId(int id) {
-        if(this.id == 0) {
+        if (this.id == 0) {
             this.id = id;
         }
     }
 
     /**
      * mainly used for debugging purposes to print the object readable
+     *
      * @return user object as string
      */
     @Override

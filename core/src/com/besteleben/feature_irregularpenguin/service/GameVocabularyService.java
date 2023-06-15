@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Service/Middletier for business logic
  */
-public class VocabularyService {
+public class GameVocabularyService {
     /**
      * number of right answers before delete
      */
@@ -24,7 +24,7 @@ public class VocabularyService {
     /**
      * data source of choice
      */
-    private final VocabularyRepository dataSource;
+    private VocabularyRepository dataSource;
     /**
      * asked verb
      */
@@ -43,7 +43,7 @@ public class VocabularyService {
      *
      * @param dataSource reference to the source of data
      */
-    public VocabularyService(VocabularyRepository dataSource) {
+    public GameVocabularyService(VocabularyRepository dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -54,7 +54,7 @@ public class VocabularyService {
      * @return a QuestionerData Object containing the QuestionerGhostColor and the verb to ask for
      */
     public QuestionerData generateNextQuestion(boolean answerCorrect) {
-        if(answerCorrect){
+        if (answerCorrect) {
             checkWrongAnsweredVocabulary();
         }
         QuestionerGhostColor[] questionerTextures = QuestionerGhostColor.values();
@@ -127,11 +127,11 @@ public class VocabularyService {
     private void checkWrongAnsweredVocabulary() {
         int vocabularyId = actualVocabulary.getId();
         int userId = User.getInstance().getId();
-        WrongVocabulariesEntry entry = dataSource.getWrongAnsweredVocabularyById(userId, vocabularyId);
-        if(entry != null){
-            if(entry.getCountOfRightAnswers() == MAX_COUNT_OF_RIGHT_ANSWERS){
+        WrongVocabulariesEntry entry = dataSource.getWrongAnsweredVocabularyByIds(userId, vocabularyId);
+        if (entry != null) {
+            if (entry.getCountOfRightAnswers() == MAX_COUNT_OF_RIGHT_ANSWERS) {
                 dataSource.deleteWrongAnsweredVocabulary(entry.getId());
-            }else{
+            } else {
                 int countOfRightAnswers = entry.getCountOfRightAnswers() + 1;
                 dataSource.updateWrongAnsweredVocabulary(entry.getUserId(), entry.getVocabularyId(), countOfRightAnswers);
             }
@@ -140,8 +140,9 @@ public class VocabularyService {
 
     /**
      * to get a vocabulary from the repository
-     * looks up if there are some vocabularies which got answered wrong and its older than the actual date
+     * looks up if there are some vocabularies which got answered wrong, and it's older than the actual date
      * then pick this up otherwise pick a random vocabulary
+     *
      * @return the selected Vocabulary
      */
     private Vocabulary selectVocabulary() {
@@ -152,9 +153,9 @@ public class VocabularyService {
         wrongAnsweredVocabularies.stream()
                 .filter(entry -> entry.getDateOfWrongAnswer().isBefore(LocalDate.now()))
                 .forEach(filteredVocabularies::add);
-        if(filteredVocabularies.isEmpty()){
+        if (filteredVocabularies.isEmpty()) {
             return dataSource.getRandomVocabulary();
-        }else{
+        } else {
             Collections.shuffle(filteredVocabularies);
             int idToLookUp = filteredVocabularies.get(0).getVocabularyId();
             return dataSource.getVocabularyById(idToLookUp);

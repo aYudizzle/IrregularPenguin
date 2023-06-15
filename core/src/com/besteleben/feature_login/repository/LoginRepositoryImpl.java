@@ -2,6 +2,8 @@ package com.besteleben.feature_login.repository;
 
 import com.besteleben.feature_login.exceptions.UserNotFoundException;
 import com.besteleben.feature_login.objects.UserData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -11,7 +13,9 @@ import java.time.LocalDate;
  * using a maria db
  */
 public class LoginRepositoryImpl implements LoginRepository {
-
+    /**
+     * URL to the database
+     */
     private static final String DB_URL = "jdbc:mariadb://mj13.serverdomain.org:3306/wa3454_db3";
     /**
      * Username für den Login in die DB
@@ -22,7 +26,13 @@ public class LoginRepositoryImpl implements LoginRepository {
      */
     private static final String PASSWORD = "Alfatraining1!";
     /**
+     * Logger for logging errors in a logfile
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginRepositoryImpl.class);;
+
+    /**
      * gets the user by username
+     *
      * @param username username to look up
      * @return the user data if the user exists.
      * @throws UserNotFoundException if the user does not exist this exception will be thrown
@@ -45,7 +55,7 @@ public class LoginRepositoryImpl implements LoginRepository {
                 }
             }
         } catch (SQLException exception) {
-            System.err.println("Datenbank nicht erreichbar");
+            LOGGER.error("ERROR:", exception);
         }
         if (user == null) {
             throw new UserNotFoundException("User name not found.");
@@ -54,7 +64,8 @@ public class LoginRepositoryImpl implements LoginRepository {
     }
 
     /**
-     * checks if a username is already in use
+     * checks if a username is already in use or still available to register
+     *
      * @param username username to lookup
      * @return true if the user is not in use and still available and false if its already registered
      */
@@ -68,7 +79,7 @@ public class LoginRepositoryImpl implements LoginRepository {
                 return !resultSet.next();
             }
         } catch (SQLException exception) {
-            System.out.println("Datenbank nicht erreichbar");
+            LOGGER.error("ERROR:", exception);
         }
         return false;
     }
@@ -78,7 +89,7 @@ public class LoginRepositoryImpl implements LoginRepository {
      *
      * @param username user with username to insert into database
      * @param password password with hashedpassword to insert into database
-     * @param salt used salt to hash the password
+     * @param salt     used salt to hash the password
      * @return if the registration to the database was successful return true
      */
     @Override
@@ -93,7 +104,7 @@ public class LoginRepositoryImpl implements LoginRepository {
             statement.execute();
             return true;
         } catch (SQLException exception) {
-            System.out.println("Adding new user not successful");
+            LOGGER.error("ERROR:", exception);
         }
         return true;
     }

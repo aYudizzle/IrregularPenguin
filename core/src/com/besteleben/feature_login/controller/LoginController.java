@@ -12,10 +12,11 @@ public class LoginController {
     /**
      * the login service for the business logic
      */
-    private final LoginService loginService;
+    private LoginService loginService;
 
     /**
      * Constructor for the controller with the reference to the loginservice
+     *
      * @param loginService reference to the service
      */
     public LoginController(LoginService loginService) {
@@ -24,17 +25,19 @@ public class LoginController {
 
     /**
      * method should get called to fire off the login event and authenticate user data's
+     *
      * @param username given username
      * @param password given password
-     * @throws UserNotFoundException exception when the username does not exist
+     * @throws UserNotFoundException          exception when the username does not exist
      * @throws LoginCredentialsWrongException exception when the user enters wrong login credentials
      */
     public void login(String username, String password) throws UserNotFoundException, LoginCredentialsWrongException {
-        loginService.authenticateUser(username,password);
+        loginService.authenticateUser(username, password);
     }
 
     /**
-     * checks if the user name is existent or non-existent
+     * checks if the username is existent or non-existent
+     *
      * @param userName username to lookup
      * @return true if the username is not existent and still available
      */
@@ -44,12 +47,13 @@ public class LoginController {
 
     /**
      * method to fire off the registration process
+     *
      * @param username username chosen by the user
      * @param password password chosen by the user
      * @return true if the registration is successful
      */
     public boolean registerUser(String username, String password) {
-        boolean registrationSuccess = loginService.registerUser(username,password);
+        boolean registrationSuccess = loginService.registerUser(username, password);
         return registrationSuccess;
     }
 }

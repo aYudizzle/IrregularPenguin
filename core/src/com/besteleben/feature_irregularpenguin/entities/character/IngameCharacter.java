@@ -26,7 +26,7 @@ public abstract class IngameCharacter extends Actor {
      */
     protected Animation<TextureRegion> idleAnimation;
     /**
-     * elapsed time since the creation of the character so its possible to calculate the
+     * elapsed time since the creation of the character, so it is possible to calculate the
      * currentTextureRegion.
      */
     protected float elapsedTime;

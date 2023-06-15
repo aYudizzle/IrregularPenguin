@@ -1,13 +1,12 @@
 package com.besteleben.feature_irregularpenguin.data.objects;
 
-import java.io.Serializable;
-
 /**
+ * <pre>
  * object for every single entry in the highscore table
+ * </pre>
  */
 
-public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> {
-    private static final long serialVersionUID = -3012671457440248243L;
+public class HighscoreEntry implements Comparable<HighscoreEntry> {
     /**
      * id of the entry
      */
@@ -23,8 +22,9 @@ public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> 
     private int playerScore;
 
     /**
-     * constructor for an highscore entry with the name of the player and score
-     * @param playerName name of the player
+     * constructor for a highscore entry with the name of the player and score
+     *
+     * @param playerName  name of the player
      * @param playerScore scored points by the player in a full round.
      */
     public HighscoreEntry(String playerName, int playerScore) {
@@ -69,33 +69,25 @@ public class HighscoreEntry implements Serializable, Comparable<HighscoreEntry> 
     }
 
     /**
-     * Gets id.
-     *
-     * @return value of id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
      * Sets id.
      *
      * @param id value of id
      */
     public void setId(int id) {
-        if(id == 0){
+        if (id == 0) {
             this.id = id;
         }
     }
 
     /**
      * toString builds a string for debugging purposes
+     *
      * @return HighscoreEntry Object as a String
      */
 
     @Override
     public String toString() {
-        return String.format("[Score: %s\t|\tPlayer: %s]", playerScore,playerName);
+        return String.format("[Score: %s\t|\tPlayer: %s]", playerScore, playerName);
     }
 
     /**

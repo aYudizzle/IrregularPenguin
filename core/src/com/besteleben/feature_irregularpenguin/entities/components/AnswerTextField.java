@@ -10,22 +10,23 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Textfield for the UserInput it also displays a small phrase
+ * TextField for the UserInput it also displays a small phrase
  * at the start of every round
  */
 public class AnswerTextField extends TextField {
     /**
      * default text for the start of the game
      */
-    private final String textToDefault;
+    private String textToDefault;
 
     /**
      * list of phrases if the user hits the next round a phrase of this list is getting displayed
      */
-    private final List<String> textNextRound = new ArrayList<>();
+    private List<String> textNextRound = new ArrayList<>();
 
     /**
-     * Constructor for the answertextfield where the user input is getting typed in
+     * Constructor for the AnswerTextField where the user input is getting typed in
+     *
      * @param text starting text which is getting displayed at the beginning
      * @param skin reference to the skin out of the resourcemanager
      */
@@ -55,11 +56,13 @@ public class AnswerTextField extends TextField {
 
     /**
      * types the text with a typing animation.
+     *
      * @param textToType text who should be animated and gets typed.
      */
     private void starTypingAnimation(String textToType) {
         Timer.schedule(new Timer.Task() {
             private int currentIndex = 0;
+
             @Override
             public void run() {
                 if (currentIndex < textToType.length()) {
@@ -75,7 +78,7 @@ public class AnswerTextField extends TextField {
     /**
      * Reset method for the next round of the game
      */
-    public void reset(){
+    public void reset() {
         Collections.shuffle(textNextRound);
         setText("");
         starTypingAnimation(textNextRound.get(0));
@@ -85,7 +88,7 @@ public class AnswerTextField extends TextField {
     /**
      * resets the textfield to its starting values and starts typing the default text
      */
-    public void resetForNewGame(){
+    public void resetForNewGame() {
         setText("");
         starTypingAnimation(textToDefault);
         setDisabled(true);

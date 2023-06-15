@@ -23,12 +23,14 @@ public class PasswordUtils {
     /**
      * private constructor because the class is a pure utility class and should not be instanced
      */
-    private PasswordUtils() {}
+    private PasswordUtils() {
+    }
 
     /**
      * method to hash the password with the chosen algorithm
+     *
      * @param password password string to hash
-     * @param salt salt to use for hashing
+     * @param salt     salt to use for hashing
      * @return hashed password
      */
     public static String hashPassword(String password, String salt) {
@@ -46,6 +48,7 @@ public class PasswordUtils {
 
     /**
      * a method to generate a random salt.
+     *
      * @return the generated salt
      */
     public static String generateSalt() {

@@ -17,7 +17,7 @@ import com.besteleben.feature_login.service.LoginService;
 
 /**
  * this is the login screen which creates a stage with all the actors of the stage and the
- * controller to mediate between stage and middletier
+ * controller to mediate between stage and service
  */
 public class LoginScreen extends ScreenAdapter {
     /**
@@ -37,9 +37,10 @@ public class LoginScreen extends ScreenAdapter {
 
     /**
      * Constructor of the LoginScreen
+     *
      * @param screenManager manages the screens of the application
      */
-    public LoginScreen(ScreenManager screenManager){
+    public LoginScreen(ScreenManager screenManager) {
         this.screenManager = screenManager;
         stage = new LoginStage(screenManager);
         controller = new LoginController(new LoginService(new LoginRepositoryImpl()));
@@ -53,13 +54,13 @@ public class LoginScreen extends ScreenAdapter {
      * initialize all the needed button handlers.
      */
     private void initButtonHandler() {
-        stage.getLoginButton().addListener(new ClickListener(){
+        stage.getLoginButton().addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String username = stage.getUsernameField().getText();
                 String password = stage.getPasswordField().getText();
                 try {
-                    controller.login(username,password);
+                    controller.login(username, password);
                     screenManager.setScreen("game");
                 } catch (UserNotFoundException exception) {
                     stage.showLoginErrorDialog("User not found!");
@@ -69,14 +70,14 @@ public class LoginScreen extends ScreenAdapter {
                 return true;
             }
         });
-        stage.getLoginErrorDialog().getRightButton().addListener(new ClickListener(){
+        stage.getLoginErrorDialog().getRightButton().addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 stage.getLoginErrorDialog().hide();
                 return true;
             }
         });
-        stage.getLoginErrorDialog().getLeftButton().addListener(new ClickListener(){
+        stage.getLoginErrorDialog().getLeftButton().addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 stage.getLoginErrorDialog().hide();
@@ -84,7 +85,7 @@ public class LoginScreen extends ScreenAdapter {
                 return true;
             }
         });
-        stage.getRegistrationFormularDialog().getCheckAvailabilityButton().addListener(new ClickListener(){
+        stage.getRegistrationFormularDialog().getCheckAvailabilityButton().addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String wantedName = stage.getRegistrationFormularDialog().getUsernameField().getText();
@@ -93,17 +94,24 @@ public class LoginScreen extends ScreenAdapter {
                 return true;
             }
         });
-        stage.getRegistrationFormularDialog().getRegisterButton().addListener(new ClickListener(){
+        stage.getRegistrationFormularDialog().getRegisterButton().addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String username = stage.getRegistrationFormularDialog().getUsernameField().getText();
                 String password = stage.getRegistrationFormularDialog().getPasswordField().getText();
-                boolean result = controller.registerUser(username,password);
-                if(result){
+                boolean result = controller.registerUser(username, password);
+                if (result) {
                     stage.getRegistrationFormularDialog().hide();
-                }else{
+                } else {
                     stage.showRegistrationFailedDialog();
                 }
+                return true;
+            }
+        });
+        stage.getRegistrationFormularDialog().getCancelButton().addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                stage.getRegistrationFormularDialog().hide();
                 return true;
             }
         });
@@ -111,6 +119,7 @@ public class LoginScreen extends ScreenAdapter {
 
     /**
      * renders the screen with the given delta time
+     *
      * @param delta The time in seconds since the last render.
      */
     @Override

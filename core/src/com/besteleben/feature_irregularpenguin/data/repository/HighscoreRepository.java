@@ -9,13 +9,15 @@ import java.util.List;
  */
 public interface HighscoreRepository {
     /**
-     * load data from backend
+     * load highscoreList from backend
+     *
      * @return the highscore list with several entries
      */
     List<HighscoreEntry> loadHighscore();
 
     /**
      * save the highscore list
+     *
      * @param highscoreList the list of highsccore entries to save
      */
     void saveHighscore(List<HighscoreEntry> highscoreList);

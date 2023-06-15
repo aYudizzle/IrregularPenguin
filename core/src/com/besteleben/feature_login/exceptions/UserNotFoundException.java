@@ -2,7 +2,6 @@ package com.besteleben.feature_login.exceptions;
 
 /**
  * this exception should be thrown, when the user can not be found in the system.
- *
  */
 public class UserNotFoundException extends Exception {
     /**

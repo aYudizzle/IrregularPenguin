@@ -1,7 +1,7 @@
 package com.besteleben.feature_irregularpenguin.service;
 
-import com.besteleben.feature_irregularpenguin.data.repository.HighscoreRepository;
 import com.besteleben.feature_irregularpenguin.data.objects.HighscoreEntry;
+import com.besteleben.feature_irregularpenguin.data.repository.HighscoreRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,7 @@ public class HighscoreService {
     /**
      * dataSource of the highscore
      */
-    private final HighscoreRepository dataSource;
+    private HighscoreRepository dataSource;
     /**
      * list of scores representing the highscore list
      */
@@ -21,9 +21,11 @@ public class HighscoreService {
     /**
      * max players wanted in list
      */
-    private final int maxEntries = 10;
+    private static final int MAX_ENTRIES = 10;
+
     /**
      * constructor to create the highscore Service
+     *
      * @param dataSource the given datasource for the service
      */
     public HighscoreService(HighscoreRepository dataSource) {
@@ -31,8 +33,10 @@ public class HighscoreService {
         highscoreList = dataSource.loadHighscore();
         highscoreList.sort(Collections.reverseOrder());
     }
+
     /**
      * method to add a Highscoreentry
+     *
      * @param entry the highscore entry to add to the list
      */
     public void addHighscoreEntry(HighscoreEntry entry) {
@@ -48,8 +52,8 @@ public class HighscoreService {
      * remove the last index
      */
     private void trimHighscore() {
-        if (highscoreList.size() > maxEntries) {
-            highscoreList.remove(maxEntries);
+        if (highscoreList.size() > MAX_ENTRIES) {
+            highscoreList.remove(MAX_ENTRIES);
         }
     }
 

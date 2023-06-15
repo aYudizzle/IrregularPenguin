@@ -13,11 +13,11 @@ public class LifeBar extends Group {
     /**
      * heartTexture for the heartcontainer
      */
-    private final TextureRegion heartTexture;
+    private TextureRegion heartTexture;
     /**
      * emptyHeartTexture when the heart is empty
      */
-    private final TextureRegion emptyHeartTexture;
+    private TextureRegion emptyHeartTexture;
     /**
      * maximum number of hearts
      */
@@ -29,7 +29,8 @@ public class LifeBar extends Group {
 
     /**
      * Constructor for a lifebar with heartcontainers
-     * @param heartTexture heartTexture for the filled hearts
+     *
+     * @param heartTexture      heartTexture for the filled hearts
      * @param emptyHeartTexture emptyhearttexture for the empty hearts
      */
     public LifeBar(TextureRegion heartTexture, TextureRegion emptyHeartTexture) {
@@ -44,28 +45,29 @@ public class LifeBar extends Group {
     private void createdHeartContainers() {
         for (int i = 0; i < maximumHearts; i++) {
             HeartContainer heartContainer = new HeartContainer(heartTexture, emptyHeartTexture);
-            heartContainer.setPosition(10+(i * heartContainer.getWidth() * heartContainer.getScaleX()), 560 - (heartContainer.getHeight()*getScaleY()) - 2);
+            heartContainer.setPosition(10 + (i * heartContainer.getWidth() * heartContainer.getScaleX()), 560 - (heartContainer.getHeight() * getScaleY()) - 2);
             addActor(heartContainer);
         }
     }
 
     /**
-     * fill the amount of hearts to the life of the player
+     * fill with the amount of hearts to the life of the player
      * all other hearts should be displayed with the empty texture
+     *
      * @param lifeCount players life count
      */
-    public void setFilledHearts(int lifeCount){
-        if(maximumHearts == -1){
+    public void setFilledHearts(int lifeCount) {
+        if (maximumHearts == -1) {
             maximumHearts = lifeCount;
             createdHeartContainers();
         }
         actualHearts = lifeCount;
-        int displayedLife = MathUtils.clamp(lifeCount,0, maximumHearts);
+        int displayedLife = MathUtils.clamp(lifeCount, 0, maximumHearts);
         for (int i = 0; i < getChildren().size; i++) {
             Actor heart = getChildren().get(i);
-            if(heart instanceof HeartContainer) {
+            if (heart instanceof HeartContainer) {
                 HeartContainer heartContainer = (HeartContainer) heart;
-                boolean alive = i<displayedLife;
+                boolean alive = i < displayedLife;
                 heartContainer.setAlive(alive);
             }
         }

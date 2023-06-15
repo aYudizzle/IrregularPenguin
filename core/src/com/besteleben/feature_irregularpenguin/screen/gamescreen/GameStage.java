@@ -27,25 +27,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * List of all Actors, so every Actor get synchronized and refreshed with the same delta time.
+ * The Stage of the GameScreen, where all the graphical magic happens.
  */
 public class GameStage extends Stage {
     /**
-     * Screenmanager to switch to another screen when needed
+     * ScreenManager to switch to another screen when needed
      */
     private ScreenManager screenManager;
     /**
-     * HORIZONTAL adjustment Line for Actors
+     * vertical adjustment Line to place the Actors in the stage
      */
-    private final static float V_BASE_LINE = 300;
+    private final static float VERTICAL_BASE_LINE = 300f;
     /**
      * for skin ressources
      */
-    private final ResourceManager resourceManager;
+    private ResourceManager resourceManager;
     /**
      * List of all Actors
      */
-    private final List<Actor> gameActors;
+    private List<Actor> gameActors;
     /**
      * displays the player character as penguin
      */
@@ -67,9 +67,9 @@ public class GameStage extends Stage {
      */
     private ImageButton highscoreButton;
     /**
-     * Answer Textfield to receive user input
+     * Answer TextField to receive user input
      */
-    private final AnswerTextField answerTextField;
+    private AnswerTextField answerTextField;
     /**
      * displays the background
      */
@@ -85,23 +85,25 @@ public class GameStage extends Stage {
     /**
      * Label to display the highscore in the top center of the screen
      */
-    private final Label highscoreDisplay;
+    private Label highscoreDisplay;
     /**
      * table to adjust the image button for restarting the game, open up settings dialog and the highscore to the top right corner
      */
     private Table tableUpperRightCorner;
+
     /**
      * constructor gets called when the stage get created and applies the viewport
-     * @param viewport the given viewport by the Screen
+     *
+     * @param viewport      the given viewport by the Screen
      * @param screenManager a reference to the screenmanager who handles the different screens
      */
     public GameStage(FitViewport viewport, ScreenManager screenManager) {
         super(viewport);
         this.screenManager = screenManager;
         gameActors = new ArrayList<>();
-        resourceManager = ResourceManager.getInstance();
+        resourceManager = ResourceManager.getResourceManager();
         answerTextField = new AnswerTextField("Have fun and good luck", resourceManager.getSkin());
-        highscoreDisplay = new Label("", resourceManager.getSkin(),"highscore-label-style");
+        highscoreDisplay = new Label("", resourceManager.getSkin(), "highscore-label-style");
 
         createActors();
         addActorToStage();
@@ -118,8 +120,8 @@ public class GameStage extends Stage {
         answerButton.setVisible(false);
 
         highscoreDisplay.setSize(200, 200);
-        highscoreDisplay.setX(Gdx.graphics.getWidth()/2f);
-        highscoreDisplay.setY(Gdx.graphics.getHeight()-140);
+        highscoreDisplay.setX(Gdx.graphics.getWidth() / 2f);
+        highscoreDisplay.setY(Gdx.graphics.getHeight() - 140);
 
         tableUpperRightCorner.setFillParent(true);
         tableUpperRightCorner.top().right();
@@ -154,10 +156,10 @@ public class GameStage extends Stage {
      * Helper method for the Constructor where all the magic (new Actors) happens
      */
     private void createActors() {
-        background = new Background(new Texture("stage/background.png"), V_BASE_LINE);
-        floor = new Floor(new Texture("stage/floor.png"), V_BASE_LINE);
-        penguin = new Penguin(0.5f, 0, V_BASE_LINE);
-        questionerGhost = new QuestionerGhost(0.25f, Gdx.graphics.getWidth() / 2f, V_BASE_LINE, resourceManager.getSkin());
+        background = new Background(new Texture("stage/background.png"), VERTICAL_BASE_LINE);
+        floor = new Floor(new Texture("stage/floor.png"), VERTICAL_BASE_LINE);
+        penguin = new Penguin(0.5f, 0, VERTICAL_BASE_LINE);
+        questionerGhost = new QuestionerGhost(0.25f, Gdx.graphics.getWidth() / 2f, VERTICAL_BASE_LINE, resourceManager.getSkin());
         answerButton = new ImageButton(new TextureRegionDrawable(new Texture("button/answer_buttonup.png")), new TextureRegionDrawable(new Texture("button/answer_buttondown.png")));
         restartButton = new ImageButton(new TextureRegionDrawable(new Texture("button/restart_buttonup.png")), new TextureRegionDrawable(new Texture("button/restart_buttondown.png")));
         highscoreButton = new ImageButton(new TextureRegionDrawable(new Texture("button/highscore_buttonup.png")), new TextureRegionDrawable(new Texture("button/highscore_buttondown.png")));
@@ -176,6 +178,7 @@ public class GameStage extends Stage {
 
     /**
      * draws the stage and all actors with the delta time in seconds
+     *
      * @param delta Time in seconds since the last frame.
      */
     @Override
@@ -203,9 +206,10 @@ public class GameStage extends Stage {
 
     /**
      * preparing the first round
+     *
      * @param questionerData data for the question
-     * @param life life to be displayed
-     * @param highscore score value
+     * @param life           life to be displayed
+     * @param highscore      score value
      */
     public void prepareRound(QuestionerData questionerData, int life, int highscore) {
         questionerGhost.setActualTexture(questionerData.getColor());
@@ -217,7 +221,8 @@ public class GameStage extends Stage {
 
     /**
      * gets called by the controller when the answer got validated by the middletier
-     * @param life life of the player
+     *
+     * @param life   life of the player
      * @param result if the answer was right or wrong (true or false)
      */
     public void reactionToAnswer(boolean result, int life) {
@@ -227,6 +232,7 @@ public class GameStage extends Stage {
             answerButton.setVisible(false);
         } else {
             lifeBar.setFilledHearts(life);
+            answerTextField.setText("");
             if (lifeBar.getActualHearts() == 0) {
                 gameOver();
             }
@@ -235,7 +241,7 @@ public class GameStage extends Stage {
 
     /**
      * when the player is defeated this method triggers the gameover sequence and shows a dialog for
-     * entering the players name
+     * the highscore
      */
     private void gameOver() {
         penguin.setPlayerDefeated(true);
@@ -265,21 +271,22 @@ public class GameStage extends Stage {
 
     /**
      * shows a dialog with the current Highscore of the game
+     *
      * @param highscoreList current highscore list
      */
     public void showHighscore(List<HighscoreEntry> highscoreList) {
-        Dialog highscoreDialog = new Dialog("",resourceManager.getSkin());
+        Dialog highscoreDialog = new Dialog("", resourceManager.getSkin());
         highscoreDialog.setModal(true);
         highscoreDialog.setBackground(new TextureRegionDrawable(new Texture("dialog/dialogbg.png")));
         Table highscoreTable = new Table();
-        Label nameLabel = new Label("Name",resourceManager.getSkin(),"dialog-label-style");
-        Label scoreLabel = new Label("Score", resourceManager.getSkin(),"dialog-label-style");
+        Label nameLabel = new Label("Name", resourceManager.getSkin(), "dialog-label-style");
+        Label scoreLabel = new Label("Score", resourceManager.getSkin(), "dialog-label-style");
         highscoreTable.add(nameLabel).padTop(30f).padRight(15f);
         highscoreTable.add(scoreLabel).padTop(30f);
         highscoreTable.row();
-        for(HighscoreEntry highscoreEntry : highscoreList) {
-            Label name = new Label(highscoreEntry.getPlayerName(), resourceManager.getSkin(),"dialoghs-label-style");
-            Label score = new Label(String.valueOf(highscoreEntry.getPlayerScore()),resourceManager.getSkin(),"dialoghs-label-style");
+        for (HighscoreEntry highscoreEntry : highscoreList) {
+            Label name = new Label(highscoreEntry.getPlayerName(), resourceManager.getSkin(), "dialoghs-label-style");
+            Label score = new Label(String.valueOf(highscoreEntry.getPlayerScore()), resourceManager.getSkin(), "dialoghs-label-style");
             highscoreTable.add(name).pad(3f);
             highscoreTable.add(score).pad(3f);
             highscoreTable.row();
@@ -291,8 +298,9 @@ public class GameStage extends Stage {
 
     /**
      * method gets called when the player want to start a new game
-     * @param highscore the highscore value
-     * @param life players life to be displayed
+     *
+     * @param highscore      the highscore value
+     * @param life           players life to be displayed
      * @param questionerData data which is needed to display the question
      */
     public void prepareNewGame(QuestionerData questionerData, int life, int highscore) {
@@ -307,6 +315,7 @@ public class GameStage extends Stage {
         lifeBar.setFilledHearts(life);
         highscoreDisplay.setText(highscore);
     }
+
     /**
      * Gets answerTextField.
      *
@@ -315,6 +324,7 @@ public class GameStage extends Stage {
     public AnswerTextField getAnswerTextField() {
         return answerTextField;
     }
+
     /**
      * Gets answerButton.
      *
@@ -323,6 +333,7 @@ public class GameStage extends Stage {
     public ImageButton getAnswerButton() {
         return answerButton;
     }
+
     /**
      * Gets restartButton.
      *

@@ -28,11 +28,12 @@ public class UserData {
     private LocalDate created_at;
 
     /**
-     * Constructor of the user object
-     * @param id the id of the user
-     * @param username the username of the user
-     * @param password the password of the user
-     * @param salt the used salt for hashing the password
+     * Constructor of the UserData object
+     *
+     * @param id         the id of the user
+     * @param username   the username of the user
+     * @param password   the password of the user
+     * @param salt       the used salt for hashing the password
      * @param created_at creation date of the user
      */
     public UserData(int id, String username, String password, String salt, LocalDate created_at) {

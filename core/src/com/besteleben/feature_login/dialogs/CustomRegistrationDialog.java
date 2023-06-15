@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class CustomRegistrationDialog extends Dialog {
     /**
-     * usernamefield for the wanted username
+     * usernameField for the wanted username
      */
     private TextField usernameField;
     /**
-     * passwordfield for the wanted password
+     * passwordField for the wanted password
      */
     private TextField passwordField;
     /**
@@ -32,42 +32,43 @@ public class CustomRegistrationDialog extends Dialog {
 
     /**
      * the constructor for the registration dialog
-     * @param title title of the dialog
-     * @param skin resource of the skin file
-     * @param leftButtonCaption caption of the left button
+     *
+     * @param title              title of the dialog
+     * @param skin               resource of the skin file
+     * @param leftButtonCaption  caption of the left button
      * @param rightButtonCaption caption of the right button
      */
     public CustomRegistrationDialog(String title, Skin skin, String leftButtonCaption, String rightButtonCaption) {
         super(title, skin);
 
         setBackground(new TextureRegionDrawable(new Texture("dialog/dialogbg.png")));
-        // paddding left and right of the content table
+        // padding left and right of the content table
         getContentTable().padLeft(20).padRight(20);
-        key(Input.Keys.ESCAPE,false);
+        key(Input.Keys.ESCAPE, false);
 
         init(leftButtonCaption, rightButtonCaption);
     }
 
     /**
      * init method to create the content of the dialog
-     * @param leftButtonCaption caption of the left button
+     *
+     * @param leftButtonCaption  caption of the left button
      * @param rightButtonCaption caption of the right button
      */
     private void init(String leftButtonCaption, String rightButtonCaption) {
         Table buttonTable = new Table();
 
-        Label usernameLabel = new Label("Username:", getSkin(),"registration-label-style");
-        usernameField = new TextField("", getSkin(),"rtField");
+        Label usernameLabel = new Label("Username:", getSkin(), "registration-label-style");
+        usernameField = new TextField("", getSkin(), "rtField");
         usernameField.setMessageText("enter username");
 
-
-        Label passwordLabel = new Label("Password:", getSkin(),"registration-label-style");
-        passwordField = new TextField("", getSkin(),"rtField");
+        Label passwordLabel = new Label("Password:", getSkin(), "registration-label-style");
+        passwordField = new TextField("", getSkin(), "rtField");
         passwordField.setMessageText("choose password");
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
 
-        Label availabilityLabel = new Label("Username available:",getSkin(),"registration-label-style");
+        Label availabilityLabel = new Label("Username available:", getSkin(), "registration-label-style");
         checkAvailabilityButton = new ImageButton(new TextureRegionDrawable(new Texture("button/dialog/questionmark.png")));
 
         // add alles in eine formular tabelle für eine optisch besser darstellung.
@@ -95,11 +96,12 @@ public class CustomRegistrationDialog extends Dialog {
 
     /**
      * this method changes the icon in the registration dialog if the name is available or the name is not.
+     *
      * @param nameAvailable boolean if the name is available or not available
      */
-    public void processAvailability(boolean nameAvailable){
+    public void processAvailability(boolean nameAvailable) {
         String imageForButton = nameAvailable ? "check.png" : "cross.png";
-        checkAvailabilityButton.getStyle().imageUp = new TextureRegionDrawable(new Texture("button/dialog/"+imageForButton));
+        checkAvailabilityButton.getStyle().imageUp = new TextureRegionDrawable(new Texture("button/dialog/" + imageForButton));
         registerButton.setVisible(nameAvailable);
     }
 

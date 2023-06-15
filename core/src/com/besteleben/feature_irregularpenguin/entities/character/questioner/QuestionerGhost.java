@@ -17,24 +17,39 @@ import com.besteleben.feature_irregularpenguin.entities.character.IngameCharacte
  * representing the questioner in the game who displays the asked verb
  * Questioner extends IngameCharacter but needs few more options
  * implements the Questioner Interface to add other functionalities
- *
  */
 public class QuestionerGhost extends IngameCharacter implements Questioner {
-    /** keeps the .atlas file for the different textures */
-    private final TextureAtlas textureAtlas = new TextureAtlas("questioner.atlas");
-    /** animation for the disappearing animation */
+    /**
+     * keeps the .atlas file for the different textures
+     */
+    private TextureAtlas textureAtlas = new TextureAtlas("questioner.atlas");
+    /**
+     * animation for the disappearing animation
+     */
     private Animation<TextureRegion> blinkAnimation;
-    /** animation for the appearing animation */
+    /**
+     * animation for the appearing animation
+     */
     private Animation<TextureRegion> appearingAnimation;
-    /** float number for the duration for every single frame */
-    private final float frameDuration;
-    /** counter for the frameduration when the questioner has to appear/disappear */
+    /**
+     * float number for the duration for every single frame
+     */
+    private float frameDuration;
+    /**
+     * counter for the frameduration when the questioner has to appear/disappear
+     */
     private float elapsedTimeDisappearing;
-    /** questionAnswered so other actors can react to it */
+    /**
+     * questionAnswered so other actors can react to it
+     */
     private boolean questionAnswered; // wenn true dann soll der questioner disappearen.
-    /** random texture from enum getting randomized in service */
+    /**
+     * random texture from enum getting randomized in service
+     */
     private QuestionerGhostColor actualTexture;
-    /** speechbubble to display the question */
+    /**
+     * speechbubble to display the question
+     */
     private final Label questionLabel;
     /**
      * a table for the lable to be able to adjust the layout of the speechbubble
@@ -44,11 +59,11 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     /**
      * constructor with base settings for the questioner ghost
      *
-     * @param defaultX default X-Coordinate
-     * @param defaultY default Y-Coordinate
-     * @param skin skin settings coming from the resourcemanager
+     * @param defaultX      default X-Coordinate
+     * @param defaultY      default Y-Coordinate
+     * @param skin          skin settings coming from the resourcemanager
      * @param frameDuration how long should every single frame last
-     * */
+     */
     public QuestionerGhost(float frameDuration, float defaultX, float defaultY, Skin skin) {
         this.defaultY = defaultY;
         //150px to the right to get the ghost off center and infront of the penguin
@@ -58,28 +73,29 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         this.questionLabel = new Label("", skin);
 
 
-        initializeLabel();
+        initLabel();
         currentTextureRegion = new TextureRegion();
         setX(this.defaultX);
     }
-    /** initialize the base settings of the speechbubble/label so it gets displayed on the right coordinates on the screen */
-    private void initializeLabel() {
+
+    /**
+     * initialize the base settings of the speechbubble/label, so it gets displayed on the right coordinates on the screen
+     */
+    private void initLabel() {
         questionLabel.setAlignment(Align.top);
         Texture textureRegion = new Texture("stage/speechbubble.png");
         speechBubbleTable = new Table();
 
-        // ninepatch for the texture of the bubble so it can get set as background of the table
+        // ninepatch for the texture of the bubble, so it can get set as background of the table
         NinePatch speechBubblePatch = new NinePatch(textureRegion);
         speechBubbleTable.setBackground(new NinePatchDrawable(speechBubblePatch));
         speechBubbleTable.add(questionLabel).pad(10).grow().top().left();
         speechBubbleTable.setSize(200, 100);
         speechBubbleTable.setPosition(defaultX - 190, defaultY + 75);
 
-
         questionLabel.setScale(0.75f);
         questionLabel.setVisible(false);
         questionLabel.setWrap(true);
-//        questionLabel.set
     }
 
     /**
@@ -98,7 +114,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     }
 
     /**
-     * Updates the actor based on time. Typically this is called each frame by {@link Stage#act(float)}.
+     * Updates the actor based on time. Typically, this is called each frame by {@link Stage#act(float)}.
      * <p>
      * The default implementation calls {@link Action#act(float)} on each action and removes actions that are complete.
      * shows the actual frame by frame so the ghost can appear, idle or disappear.
@@ -108,7 +124,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
     @Override
     public void act(float delta) {
         super.act(delta);
-//        defaultX = getStage().getWidth() / 2;
+//      for calculating the frame
         elapsedTime += delta;
         TextureRegion currentFrame;
         if (appearingAnimation.isAnimationFinished(elapsedTime)) {
@@ -133,10 +149,9 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
      * the batch. If {@link Batch#end()} is called to draw without the batch then {@link Batch#begin()} must be called before the
      * method returns.
      * <p>
-     *
      * draws the ghost and if questionLabel.isVisible() = true the table with the speechbbubble is drawn too.
      *
-     * @param batch Batch to draw the currentTextureRegion
+     * @param batch       Batch to draw the currentTextureRegion
      * @param parentAlpha The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
      *                    children. In this case there is no custom Alpha value sind everything should be fully visible
      */
@@ -150,17 +165,19 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
             }
         }
     }
+
     /**
      * for displaying the Question and setting up the Data for the label etc.
+     *
      * @param verb the verb which should get displayed
      */
     @Override
     public void settingUpQuestion(String verb) {
-        if (actualTexture.getRequestedForm().equals("german")) {
-            String labelText = String.format("What is the infinitive of \"%s\" in %s", verb,actualTexture.getRequestedForm());
+        if(actualTexture.getRequestedForm().equals("german")) {
+            String labelText = String.format("What is the infinitive of \"%s\" in %s", verb, actualTexture.getRequestedForm());
             questionLabel.setText(labelText);
         } else {
-            String labelText = String.format("What is the %s of \"%s\"",actualTexture.getRequestedForm(), verb);
+            String labelText = String.format("What is the %s of \"%s\"", actualTexture.getRequestedForm(), verb);
             questionLabel.setText(labelText);
         }
     }
@@ -182,12 +199,15 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
 
     /**
      * gets called by stage when the game is over cause the lifebar reached 0
-     * */
+     */
     public void gameEnd() {
         String labelText = "Game Over\nbetter luck next time";
         questionLabel.setText(labelText);
     }
-    /**resets the questioner to his default position */
+
+    /**
+     * resets the questioner to his default position
+     */
     public void reset() {
         questionLabel.setVisible(false);
         elapsedTimeDisappearing = 0;
@@ -195,6 +215,7 @@ public class QuestionerGhost extends IngameCharacter implements Questioner {
         questionAnswered = false;
         setX(defaultX);
     }
+
     /**
      * Sets actualTexture.
      *

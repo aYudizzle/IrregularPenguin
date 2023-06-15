@@ -7,18 +7,21 @@ import java.util.Map;
 
 /**
  * Manager who helps with the screen management. Keeps an instance of the game and maps every possible screen to a key
- * so its easier to handle those screens and you are able to use shortnames to set the screen
+ * so, it is easier to handle those screens, and you are able to use shortnames to set the screen
  */
 public class ScreenManager {
-    /** reference of the game */
-    private final IrregularPenguinGame game;
     /**
-     * maps with all possible screens
+     * reference of the game
      */
-    private final Map<String, Screen> screens;
+    private IrregularPenguinGame game;
+    /**
+     * map with all possible screens
+     */
+    private Map<String, Screen> screens;
 
     /**
      * Constructor with a reference to the game instance
+     *
      * @param game reference to the game instance
      */
     public ScreenManager(IrregularPenguinGame game) {
@@ -27,8 +30,9 @@ public class ScreenManager {
     }
 
     /**
-     * add a screen to the manager so it can be set when needed
-     * @param name screenname the shortname for the screen
+     * add a screen to the manager, so it can be set when needed
+     *
+     * @param name   screenname the shortname for the screen
      * @param screen instance of the screen
      */
     public void addScreen(String name, Screen screen) {
@@ -37,6 +41,7 @@ public class ScreenManager {
 
     /**
      * method to remove screens from the manager
+     *
      * @param name the name of the screen which should get removed
      */
     public void removeScreen(String name) {
@@ -45,6 +50,7 @@ public class ScreenManager {
 
     /**
      * method to set the screen as an active screen
+     *
      * @param name which screen should be shown
      */
     public void setScreen(String name) {

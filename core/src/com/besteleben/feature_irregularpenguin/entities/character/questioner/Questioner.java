@@ -7,6 +7,7 @@ package com.besteleben.feature_irregularpenguin.entities.character.questioner;
 public interface Questioner {
     /**
      * for displaying the Question
+     *
      * @param verb the verb what should get asked for
      */
     void settingUpQuestion(String verb);

@@ -15,6 +15,7 @@ public class KeyboardInputProcessor implements InputProcessor {
 
     /**
      * Constructor for the inputprocessor which handles keyboard inputs
+     *
      * @param answerTextField a reference to the textfield to observe
      */
     public KeyboardInputProcessor(AnswerTextField answerTextField) {
@@ -109,7 +110,7 @@ public class KeyboardInputProcessor implements InputProcessor {
      * Called when a finger or the mouse was dragged.
      *
      * @param screenX x coordinate where the action happens
-     * @param screenY y coordnate where the actions happens
+     * @param screenY y coordnate where the action happens
      * @param pointer the pointer for the event.
      * @return whether the input was processed
      */
@@ -122,7 +123,7 @@ public class KeyboardInputProcessor implements InputProcessor {
      * Called when the mouse was moved without any buttons being pressed. Will not be called on iOS.
      *
      * @param screenX x coordinate where the action happens
-     * @param screenY y coordnate where the actions happens
+     * @param screenY y coordnate where the action happens
      * @return whether the input was processed
      */
     @Override

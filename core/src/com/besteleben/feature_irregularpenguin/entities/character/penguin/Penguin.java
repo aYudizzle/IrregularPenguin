@@ -32,11 +32,12 @@ public class Penguin extends IngameCharacter {
 
     /**
      * Penguin constructor with the duration for everysingle frame to cycle through his animations
+     *
      * @param frameDuration how long should a frame be displayed
-     * @param defaultX  base X-Coordinate
-     * @param defaultY base Y-Coordinate
+     * @param defaultX      base X-Coordinate
+     * @param defaultY      base Y-Coordinate
      */
-    public Penguin(float frameDuration, float defaultX, float defaultY){
+    public Penguin(float frameDuration, float defaultX, float defaultY) {
         this.defaultX = defaultX;
         this.defaultY = defaultY;
         currentTextureRegion = new TextureRegion();
@@ -44,15 +45,16 @@ public class Penguin extends IngameCharacter {
         setX(this.defaultX);
         setScale(2);
 
-        buildAnimationTextures(frameDuration);
+        initTextures(frameDuration);
     }
 
     /**
-     * build the animation for idlAnimation, runAnimation and hurtAnimation
+     * build the animation for idleAnimation, runAnimation and hurtAnimation
      * just created a helper method to keep the constructor cleaner.
+     *
      * @param frameDuration duration for every single frame
      */
-    private void buildAnimationTextures(float frameDuration) {
+    private void initTextures(float frameDuration) {
         TextureAtlas textureAtlas = new TextureAtlas("penguin.atlas");
         String runRegionName = "walk"; // tag for run animation in penguin.atlas
         String idleRegionName = "Idle"; // tag for idle animation in penguin.atlas
@@ -60,15 +62,15 @@ public class Penguin extends IngameCharacter {
         Array<TextureAtlas.AtlasRegion> idleFrames = textureAtlas.findRegions(idleRegionName);
         Array<TextureAtlas.AtlasRegion> hurtFrames = textureAtlas.findRegions("hurt");
 
-        runAnimation = new Animation<>(frameDuration,runFrames, Animation.PlayMode.LOOP);
-        idleAnimation = new Animation<>(frameDuration,idleFrames, Animation.PlayMode.LOOP);
-        hurtAnimation = new Animation<>(frameDuration,hurtFrames,Animation.PlayMode.LOOP);
+        runAnimation = new Animation<>(frameDuration, runFrames, Animation.PlayMode.LOOP);
+        idleAnimation = new Animation<>(frameDuration, idleFrames, Animation.PlayMode.LOOP);
+        hurtAnimation = new Animation<>(frameDuration, hurtFrames, Animation.PlayMode.LOOP);
 
-        setSize(runFrames.first().getRegionWidth(),runFrames.first().getRegionHeight());
+        setSize(runFrames.first().getRegionWidth(), runFrames.first().getRegionHeight());
     }
 
     /**
-     * Updates the actor based on time. Typically this is called each frame by {@link Stage#act(float)}.
+     * Updates the actor based on time. Typically, this is called each frame by {@link Stage#act(float)}.
      * <p>
      * The default implementation calls {@link Action#act(float)} on each action and removes actions that are complete.
      *
@@ -83,9 +85,10 @@ public class Penguin extends IngameCharacter {
 
     /**
      * draws the penguin and his texture to the batch
-     * @param batch the batch to draw the texture
+     *
+     * @param batch       the batch to draw the texture
      * @param parentAlpha The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
-     *           children.
+     *                    children.
      */
     public void draw(Batch batch, float parentAlpha) {
         if (currentTextureRegion != null) {
@@ -109,8 +112,8 @@ public class Penguin extends IngameCharacter {
             }
         } else {
             useRunningAnimation();
-            }
         }
+    }
 
     /**
      * change the currentTexture to the hurtAnimation texture
@@ -118,54 +121,48 @@ public class Penguin extends IngameCharacter {
     private void useHurtAnimation() {
         TextureRegion currentFrame;
         currentFrame = hurtAnimation.getKeyFrame(elapsedTime);
-        setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
+        setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
         currentTextureRegion.setRegion(currentFrame);
     }
 
     /**
      * change the currentTexture to the idle animation
      */
-    public void useIdleAnimation(){
+    public void useIdleAnimation() {
         TextureRegion currentFrame;
         currentFrame = idleAnimation.getKeyFrame(elapsedTime);
-        setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
+        setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
         currentTextureRegion.setRegion(currentFrame);
     }
 
     /**
      * change the currentTexture to the running Animation.
      */
-    public void useRunningAnimation(){
+    public void useRunningAnimation() {
         TextureRegion currentFrame;
         currentFrame = runAnimation.getKeyFrame(elapsedTime);
-        setSize(currentFrame.getRegionWidth(),currentFrame.getRegionHeight());
+        setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
         currentTextureRegion.setRegion(currentFrame);
-        moveBy(4,0);
+        moveBy(4, 0);
     }
 
     /**
      * checks if the penguin has reached the center of the screen with a little offset
+     *
      * @return true or false depending on the position of the character
      */
     public boolean hasReachedCenter() {
         float centerX = getX() + getWidth() / 2;
-        float stageCenterX = getStage().getWidth() / 2 - (4.9f* currentTextureRegion.getRegionWidth()); // für eine gewisse verschiebung nach links
+        float stageCenterX = getStage().getWidth() / 2 - (4.9f * currentTextureRegion.getRegionWidth()); // für ein offset nach links
         return centerX == stageCenterX;
     }
+
     /**
      * resets the penguin to the default parameters
      */
     public void reset() {
         setX(defaultX);
         questionAnswered = false;
-    }
-    /**
-     * Gets answered.
-     *
-     * @return value of answered
-     */
-    public boolean isQuestionAnswered() {
-        return questionAnswered;
     }
 
     /**
