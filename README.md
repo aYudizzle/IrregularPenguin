@@ -11,5 +11,5 @@ Irregular Penguin is an educational game developed using LibGDX and Java. The ga
 
 ## Getting Started
 - Setup a SQL Database i.e. MariaDB, MySQL. Just use the SQL Files out of the SQL Folder
-- 
+
 ![irregular_penguin_snapshot](https://github.com/aYudizzle/IrregularPenguin/assets/116006616/c5db5412-39dd-4c19-b708-399dc63c1c58)
