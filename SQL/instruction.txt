@@ -1,0 +1,5 @@
+1. import those SQL files in your database to setup the database structure
+2. go to the package com.besteleben.feature_irregularpenguin.data.repository and edit the Impl (Highscore and Vocabulary) with ur database credentials (the easiest but not the safest way to do it)
+3. then just go into the package com.besteleben.feature_login.repository and edit the login credentials there too.
+
+IMPORTANT! It's not the safest way to save those credentials in your code directly but it should do it for ur own use.
