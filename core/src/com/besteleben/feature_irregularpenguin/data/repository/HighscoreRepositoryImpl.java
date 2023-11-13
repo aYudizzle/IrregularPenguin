@@ -15,15 +15,15 @@ public class HighscoreRepositoryImpl implements HighscoreRepository {
     /**
      * die Datenbank Adresse mit Auswahl des richtigen Treibers
      */
-    private static final String DB_URL = "jdbc:mariadb://mj13.serverdomain.org:3306/wa3454_db3";
+    private static final String DB_URL = ""; // i.e. jdbc:mariadb://mywebserver.com:3306/my_db
     /**
      * Username für den Login in die DB
      */
-    private static final String USERNAME = "wa3454_3";
+    private static final String USERNAME = ""; // username for logging in the db
     /**
      * passwort für die datenbank verbindung
      */
-    private static final String PASSWORD = "Alfatraining1!";
+    private static final String PASSWORD = ""; // password for logging into the db
     /**
      * Logger for logging errors in a logfile
      */

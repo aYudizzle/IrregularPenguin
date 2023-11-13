@@ -5,7 +5,7 @@ package com.besteleben.feature_irregularpenguin.entities;
  */
 public class Player {
     /**
-     * displaying the actual lifes - starting with 3 life per default
+     * displaying the actual life - starting with 3 life per default
      */
     private int life = 3;
     /**
