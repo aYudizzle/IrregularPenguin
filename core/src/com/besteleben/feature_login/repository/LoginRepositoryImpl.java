@@ -16,15 +16,15 @@ public class LoginRepositoryImpl implements LoginRepository {
     /**
      * URL to the database
      */
-    private static final String DB_URL = ""; // i.e. jdbc:mariadb://mywebserver.com:3306/my_db
+    private static final String DB_URL = "";
     /**
      * Username für den Login in die DB
      */
-    private static final String USERNAME = ""; // username for logging in the db
+    private static final String USERNAME = "";
     /**
      * passwort für die datenbank verbindung
      */
-    private static final String PASSWORD = ""; // password for logging into the db
+    private static final String PASSWORD = "";
     /**
      * Logger for logging errors in a logfile
      */
